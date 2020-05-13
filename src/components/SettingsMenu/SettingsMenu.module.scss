@@ -1,0 +1,59 @@
+.settingsMenuWrapper {
+    position: fixed;
+    top: 48px * 2;
+    right: 48px;
+
+    >div:not(:last-child) {
+        z-index: 1;
+    }
+
+    p {
+        margin: 0;
+
+        &:last-of-type {
+            color: var(--secondary-600);
+        }
+    }
+}
+
+.settingsItem {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    z-index: 1;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid var(--secondary-600);
+    }
+
+    svg {
+        margin-right: 1rem;
+    }
+}
+
+.copiedLinkToast {
+    transform: translateY(-200%);
+    transition: transform 100ms ease-in-out;
+    color: var(--primary-100);
+    margin-top: 1rem;
+
+    &:not(.show) div {
+        box-shadow: 0 0 0 #000;
+    }
+
+    &.show {
+        transform: translateY(0);
+
+        div {
+            transition-delay: 50ms;
+        }
+    }
+
+    div {
+        width: 95%;
+        margin: 0 auto;
+        transition: box-shadow 150ms ease-in-out;
+        background-color: var(--secondary-800);
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,29 @@
+.blockWrapper {
+    display: grid;
+    grid-template-columns: 48px 1fr 48px;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.innerWrapper {
+    padding: 1rem;
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--depth-1);
+    background-color: var(--primary-100);
+    border: 2px solid var(--secondary-800);
+
+    &.isImage {
+        border: none;
+        padding: 0;
+
+        img {
+            border-radius: var(--main-border-radius);
+            width: 100%;
+        }
+    }
+}
+
+.delete {
+    cursor: pointer;
+}

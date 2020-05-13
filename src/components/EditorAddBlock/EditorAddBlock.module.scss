@@ -1,0 +1,31 @@
+@import "../../styles/design-tokens/_scss-variables.scss";
+
+
+.menu {
+    position: fixed;
+    display: inline-grid;
+    grid-auto-columns: 1fr;
+}
+
+.addBlockButton {
+    text-align: center;
+    padding: 0.4rem 1rem;
+    grid-row: 1;
+
+    &:first-child {
+        border-radius: var(--main-border-radius) 0 0 var(--main-border-radius);
+    }
+
+    &:last-child {
+        border-radius: 0 var(--main-border-radius) var(--main-border-radius) 0;
+    }
+
+    &:hover {
+        background-color: var(--secondary-200);
+    }
+
+    span {
+        display: block;
+        @include text-style-caption;
+    }
+}

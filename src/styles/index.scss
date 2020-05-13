@@ -1,0 +1,39 @@
+@import "./design-tokens/css-variables";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,700;1,400&display=swap');
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  color: var(--secondary-800);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  outline: 0;
+  border: 0;
+  -webkit-appearance: none;
+  background: none;
+}
+
+input,
+textarea {
+  border: 0;
+
+  &::placeholder {
+    color: var(--secondary-600);
+  }
+}
