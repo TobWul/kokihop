@@ -14,13 +14,13 @@ const SettingsMenu = ({
   savedCount,
   prevUpdate,
 }) => {
-  console.log(savedCount);
-
   const [copied, setCopied] = useState(false);
 
   const copyRef = useRef(null);
 
   const copy = () => {
+    console.log(copyRef.current);
+
     copyRef.current.select();
     copyRef.current.setSelectionRange(0, 99999); /*For mobile devices*/
 
@@ -30,8 +30,6 @@ const SettingsMenu = ({
     setTimeout(() => setCopied(false), 1000);
   };
 
-  const haveSavedCount = savedCount && savedCount.length > 0;
-
   if (!(prevUpdate instanceof Date)) {
     prevUpdate = new Date(prevUpdate);
   }
@@ -40,10 +38,18 @@ const SettingsMenu = ({
       <MenuCard>
         <SettingsItem name="Rediger oppskrift" icon="edit" onClick={editPage} />
         <SettingsItem name="Kopier linken" icon="hyperlink" onClick={copy} />
-        {haveSavedCount && (
-          <p>{savedCount} har lagret denne oppskriften i sin bok</p>
-        )}
+        {savedCount > 0 && <p>{savedCount} har lagret denn oppskriften</p>}
         <p>Sist endret: {getTimestamp(prevUpdate)}</p>
+        <label htmlFor="copy" className={styles.copyInput}>
+          Hidden copy element
+        </label>
+        <input
+          id="copy"
+          type="text"
+          ref={copyRef}
+          value={url}
+          className={styles.copyInput}
+        />
       </MenuCard>
       <MenuCard>
         <SettingsItem name="Ny oppskrift" icon="addCircle" onClick={newPage} />
@@ -53,7 +59,7 @@ const SettingsMenu = ({
           onClick={openSettings}
         />
       </MenuCard>
-      <CopiedLinkToast show={copied} url={url} inputRef={copyRef} />
+      <CopiedLinkToast show={copied} />
     </div>
   );
 };

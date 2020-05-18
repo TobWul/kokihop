@@ -1,10 +1,27 @@
 @import "../../styles/design-tokens/_scss-variables.scss";
 
+.wrapper {
+    position: relative;
+
+    button {
+        margin: 0 auto
+    }
+}
 
 .menu {
-    position: fixed;
+    position: absolute;
+    bottom: 48px + 16px;
     display: inline-grid;
+    left: 50%;
     grid-auto-columns: 1fr;
+    opacity: 0;
+    transform: translate(-50%, 20px);
+    transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+
+    &.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 .addBlockButton {

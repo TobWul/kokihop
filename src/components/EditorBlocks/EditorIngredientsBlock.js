@@ -1,38 +1,39 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import Icon from "../../Icon/Icon";
+import Icon from "../Icon/Icon";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
 import { useState } from "react";
-import DragHandle from "../../DragHandle/DragHandle";
+import DragHandle from "../DragHandle/DragHandle";
 import { DebounceInput } from "react-debounce-input";
-import styles from "./BlockTypes.module.scss";
+import styles from "./EditorBlocks.module.scss";
 
-const IngredientItem = SortableElement(
+const EditorIngredientItem = SortableElement(
   ({ value, ingredientIndex, removeItem, updateItem }) => (
     <li className={styles.ingredientItem}>
       <DragHandle />
-      <DebounceInput
-        minLength={1}
-        debounceTimeout={200}
+      <input
         onChange={(e) => updateItem(e, ingredientIndex)}
         value={value}
         placeholder="Skriv inn ingrediens..."
         className={styles.ingredientInput}
+        aria-label="Ny ingrediens"
       />
-      <button onClick={() => removeItem(ingredientIndex)}>
+      <button
+        onClick={() => removeItem(ingredientIndex)}
+        aria-label="Remove ingredient"
+      >
         <Icon icon="close" />
       </button>
     </li>
   )
 );
 
-const IngredientContainer = SortableContainer(
+const EditorIngredientContainer = SortableContainer(
   ({ items, removeItem, updateItem, addIngredient }) => {
     return (
       <ul>
         {items.map((value, index) => (
-          <IngredientItem
+          <EditorIngredientItem
             key={`ingredient-${index}`}
             index={index}
             ingredientIndex={index}
@@ -43,7 +44,7 @@ const IngredientContainer = SortableContainer(
         ))}
 
         <li className={styles.addIngredient}>
-          <button onClick={addIngredient}>
+          <button onClick={addIngredient} aria-label="Add ingredient">
             <Icon icon="addCircle" />
             Ny ingrediens
           </button>
@@ -53,8 +54,8 @@ const IngredientContainer = SortableContainer(
   }
 );
 
-const IngredientsBlock = ({ block, updateBlockValue }) => {
-  const [ingredients, setIngredients] = useState(block.value);
+const EditorIngredientsBlock = ({ block, updateBlockValue }) => {
+  const [ingredients, setIngredients] = useState(block.value || []);
 
   useEffect(() => {
     const addIngredientOnKeyUp = (e) => {
@@ -82,7 +83,7 @@ const IngredientsBlock = ({ block, updateBlockValue }) => {
     if (oldIndex !== newIndex) {
       const newIngredientstOrder = arrayMove(ingredients, oldIndex, newIndex);
       setIngredients(newIngredientstOrder);
-      updateBlockValue(newIngredientstOrder);
+      updateBlockValue(block.id, newIngredientstOrder);
     }
   };
 
@@ -90,13 +91,13 @@ const IngredientsBlock = ({ block, updateBlockValue }) => {
     const updatedIngredientsList = [...ingredients];
     updatedIngredientsList.splice(index, 1);
     setIngredients(updatedIngredientsList);
-    updateBlockValue(updatedIngredientsList);
+    updateBlockValue(block.id, updatedIngredientsList);
   };
 
   const updateItem = (e, index) => {
     const updatedIngredientsList = [...ingredients];
     updatedIngredientsList[index] = e.target.value;
-    updateBlockValue(updatedIngredientsList);
+    updateBlockValue(block.id, updatedIngredientsList);
     setIngredients(updatedIngredientsList);
   };
 
@@ -114,7 +115,7 @@ const IngredientsBlock = ({ block, updateBlockValue }) => {
 
   return (
     <div className={styles.ingredientsBlock}>
-      <IngredientContainer
+      <EditorIngredientContainer
         items={ingredients}
         onSortEnd={onSortEnd}
         removeItem={removeItem}
@@ -128,4 +129,4 @@ const IngredientsBlock = ({ block, updateBlockValue }) => {
   );
 };
 
-export default IngredientsBlock;
+export default EditorIngredientsBlock;

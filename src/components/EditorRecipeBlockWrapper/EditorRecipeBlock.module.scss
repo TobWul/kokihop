@@ -13,6 +13,12 @@
     background-color: var(--primary-100);
     border: 2px solid var(--secondary-800);
 
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     &.isImage {
         border: none;
         padding: 0;

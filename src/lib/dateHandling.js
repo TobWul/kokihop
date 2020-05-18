@@ -11,7 +11,10 @@ export const datesAreOnSameDay = (first, second) =>
 
 export const getTimestamp = (prevUpdate) => {
   // Returns the format 12:42
-  const time = prevUpdate.getHours() + ":" + prevUpdate.getMinutes();
+  const time =
+    leadingZero(prevUpdate.getHours()) +
+    ":" +
+    leadingZero(prevUpdate.getMinutes());
   // Returns the format 24.04.20
   const date = `${leadingZero(prevUpdate.getDate())}.${leadingZero(
     prevUpdate.getMonth() + 1

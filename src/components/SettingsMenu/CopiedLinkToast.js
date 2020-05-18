@@ -4,10 +4,9 @@ import MenuCard from "../MenuCard/MenuCard";
 import styles from "./SettingsMenu.module.scss";
 import { cn } from "../../lib/helpers";
 
-const CopiedLinkToast = ({ show, url, inputRef }) => {
+const CopiedLinkToast = ({ show }) => {
   return (
     <div className={cn(styles.copiedLinkToast, show && styles.show)}>
-      <input type="text" ref={inputRef} hidden value={url} readOnly />
       <MenuCard>Linken er kopiert</MenuCard>
     </div>
   );
@@ -15,8 +14,6 @@ const CopiedLinkToast = ({ show, url, inputRef }) => {
 
 CopiedLinkToast.propTypes = {
   show: PropTypes.bool.isRequired,
-  url: PropTypes.string.isRequired,
-  inputRef: PropTypes.any.isRequired,
 };
 
 export default CopiedLinkToast;
