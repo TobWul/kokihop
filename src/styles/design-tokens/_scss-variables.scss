@@ -1,5 +1,8 @@
 $category-bar-width: 80px;
 
+$recipe-category-width: 80px;
+$recipe-page-width: calc(100% - #{$recipe-category-width});
+
 @mixin text-style-caption {
     font-size: 0.75rem;
 }

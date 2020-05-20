@@ -3,26 +3,31 @@ import PropTypes from "prop-types";
 import CategoryLabel from "./CategoryLabel";
 import { category } from "../../lib/propTypes";
 import styles from "./Category.module.scss";
-import AddCategoryButton from "./AddCategoryButton";
 
 const Categories = ({
   categories,
   changeCategory,
-  selectedCategory,
-  addCategory,
+  goToIndex,
+  selectedCategoryId,
 }) => {
+  const index = categories.shift();
   return (
     <div className={styles.wrapper}>
+      <CategoryLabel
+        id={index.id}
+        name="Indeks"
+        active={selectedCategoryId === index.id}
+        changeCategory={goToIndex}
+      />
       {categories.map((category) => (
         <CategoryLabel
           id={category.id}
           key={`category-${category.id}`}
           name={category.name}
-          active={selectedCategory.id === category.id}
+          active={selectedCategoryId === category.id}
           changeCategory={changeCategory}
         />
       ))}
-      {/* <AddCategoryButton addCategory={addCategory} /> */}
     </div>
   );
 };

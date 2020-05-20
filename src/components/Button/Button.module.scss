@@ -1,3 +1,5 @@
+@import "../../styles/design-tokens/scss-variables";
+
 .button {
     background-color: var(--secondary-800);
     color: var(--primary-100);
@@ -20,5 +22,26 @@
         justify-content: center;
         align-items: center;
         padding: 0;
+    }
+
+    &.fab {
+        position: fixed;
+        z-index: 10;
+
+        &.top {
+            top: 3rem;
+        }
+
+        &.bottom {
+            bottom: 4rem;
+        }
+
+        &.right {
+            right: 3rem;
+        }
+
+        &.left {
+            left: calc(#{$recipe-category-width} + 3rem);
+        }
     }
 }

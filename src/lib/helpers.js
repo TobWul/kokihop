@@ -36,3 +36,8 @@ export function debounce(callback, wait) {
     timeout = setTimeout(() => callback.apply(context, args), wait);
   };
 }
+
+export const getUrlElementAtIndex = (url, index) => url.split("/")[index];
+
+export const changeurlElementAtIndex = (url, index, newValue) =>
+  url.split("/").slice(0, index).join("/") + "/" + newValue;

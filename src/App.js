@@ -1,8 +1,22 @@
 import React from "react";
-import logo from "./logo.svg";
+import Pages from "./components/Pages/Pages";
+import { Switch, Route, Link } from "react-router-dom";
+import Landing from "./components/Landing/Landing";
+import RecipeBook from "./components/RecipeBook/RecipeBook";
 
 function App() {
-  return <h1>Recipes</h1>;
+  return (
+    <>
+      <Switch>
+        <Route exact path="/">
+          <Landing />
+        </Route>
+        <Route path="/bok/:bookId">
+          <RecipeBook />
+        </Route>
+      </Switch>
+    </>
+  );
 }
 
 export default App;

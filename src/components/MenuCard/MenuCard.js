@@ -4,9 +4,9 @@ import styles from "./MenuCard.module.scss";
 import { cn } from "../../lib/helpers";
 import useClickOutside from "../../hooks/useClickOutside";
 
-const MenuCard = ({ children, className, clickOutsideHandler }) => {
+const MenuCard = ({ children, className, clickOutsideHandler, safeRefs }) => {
   const menuRef = useRef(null);
-  useClickOutside(menuRef, clickOutsideHandler);
+  useClickOutside(menuRef, clickOutsideHandler, safeRefs);
   return (
     <div ref={menuRef} className={cn(styles.card, className)}>
       {children}

@@ -1,0 +1,13 @@
+@import "../../styles/design-tokens/scss-variables";
+
+.bookContainer {
+    .pageWrapper {
+        position: relative;
+        margin-right: 0;
+        margin-left: auto;
+        width: $recipe-page-width;
+        background-color: var(--primary-200);
+        box-shadow: var(--depth-2);
+        min-height: 100vh;
+    }
+}

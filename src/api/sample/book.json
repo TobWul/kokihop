@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "ownerId": "FDSRjaf14m1kFAmazIq13",
+    "categories": [{
+            "id": "1",
+            "name": "Brød",
+            "recipes": ["jfkdløsa", "hu9vpc", "u8fd9spau1", "u98vsdao", "fdsc0sa1"]
+        },
+        {
+            "id": "2",
+            "name": "Middag",
+            "recipes": ["jfkdløsa", "hu9vpc"]
+        },
+        {
+            "id": "3",
+            "name": "Kaker",
+            "recipes": ["jfkdløsa", "hu9vpc", "u8fd9spau1", "u98vsdao"]
+        },
+        {
+            "id": "4",
+            "name": "Dessert",
+            "recipes": []
+        }
+    ]
+}

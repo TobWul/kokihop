@@ -1,3 +1,8 @@
+import blocksData from "./sample/blocks.json";
+import sampleLookup from "./sample/sampleLookup";
+import { useEffect, useState, useReducer } from "react";
+import { useRouteMatch, useLocation } from "react-router-dom";
+
 const consoleLoggingAPI = (message) => {
   console.log("\n---------- API ----------");
   console.log(message);
@@ -6,47 +11,78 @@ const consoleLoggingAPI = (message) => {
 
 const baseUrl = "localhost:8000/api/";
 
-export const updateBlock = (id, newValue) => {
-  const message = `${baseUrl}"recipe/block/"${id}
-    ${newValue}
-    `;
-  consoleLoggingAPI(message);
+const apiCall = async (url, method) => {
+  const response = sampleLookup[url];
+  // const response = await fetch(baseUrl + url, {
+  //   method,
+  // })
+  return response;
 };
 
-export const getRecipeBlocks = (recipeId) => {
-  const ingredientBlockData = {
-    id: "1",
-    type: "ingredients",
-    value: ["Gulrot", "Potet", "Løk"],
-  };
-  const textBlockData = {
-    id: "2",
-    type: "text",
-    value:
-      "<p>Om morgenen: Gjør klar surdeigen. Nok til at det blir 127g. La det være 60g surdeig igjen, da blir det 180g surdeig, nok til å mate den på nytt.</p><p><b>Kl. 18:00:</b> Bland sammen hvetemel, rugmel og vann. La det stå én time.</p><p><b>Kl. 19:00:</b> Tøm 127g surdeig oppå deigen. Fordel den utover og begynn 5-8 min knaing. Slap &amp; fold har fungert veldig fint i det siste.</p><p><b>Kl. 19:30:</b> Bland inn 15g salt. Kna 5-8 min igjen. Nå burde deigen ha begynt å danne en god glutenstruktur. Test det med “window pane”-teknikken.</p><p><b>Kl. 20:00:</b> Brett deigen først fra venstre til høyre, topp til bunn, høyre til venstre og til slutt bunn til topp.</p><p><b>Kl. 20:30:</b> Del deigen i to deler. Ta den ene deigen og dra den utover til den blir veldig tynn og stor. Brett langsiden 1/3 inn i deigen. Brett så den andre langsiden over slik at de blir kant i kant. Brett kortsiden 1/3 3 ganger til man har en rull. Gjenta på den andre deigen. Legg dem i hver sin smurte form, dekk med plast og la stå til neste dag i et kjølig rom, 14-18 grader.</p><p>Neste dag</p><p><b>Kl. 07:00:</b> Strø mel utover kjøkkenbenken. Legg deigen på melet. Brett enden av deigen inn mot senter. Gjør dette rundt hele deigen til overflaten er stram. Gjør det samme med den andre. Legg hver deig i hver sin meldryssede hevekurv. Dekk til med plast og sett i kjøleskapet.</p><p>Ettermiddag: Ta et brød ut av kjøleskapet og skru ovnen på 225°C. Legg inn pizzastein og jernkasserolle i ovnen. Når ovnen er varm, legg brødet på pizzaspaden og “score” brødet. Sett inn i ovnen, legg kaserollen over brød. Timer på 25 min. Ta av kaserollen og stek 20 min til. Brød ferdig.</p><p>Neste morgen: Gjenta stekingen.</p>",
-  };
-
-  const titleBlockData = {
-    id: "3",
-    type: "title",
-    value: "Surdeig",
-  };
-
-  const imageBlockData = {
-    id: "4",
-    type: "image",
-    value: {
-      src:
-        "https://images.pexels.com/photos/600620/pexels-photo-600620.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-      alt: "Mat",
-    },
-  };
-
-  const blocks = [
-    titleBlockData,
-    textBlockData,
-    ingredientBlockData,
-    imageBlockData,
-  ];
-  return blocks;
+const dataFetchReducer = (state, action) => {
+  switch (action.type) {
+    case "FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case "FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case "FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    default:
+      throw new Error();
+  }
 };
+
+const useDataApi = (initialUrl, initialData) => {
+  const [url, setUrl] = useState(initialUrl);
+
+  const [state, dispatch] = useReducer(dataFetchReducer, {
+    url,
+    isLoading: false,
+    isError: false,
+    data: initialData,
+  });
+
+  useEffect(() => {
+    let didCancel = false;
+
+    const fetchData = async () => {
+      dispatch({ type: "FETCH_INIT" });
+
+      try {
+        const result = await apiCall(url, "GET");
+
+        if (!didCancel) {
+          dispatch({ type: "FETCH_SUCCESS", payload: result });
+          consoleLoggingAPI(state);
+        }
+      } catch (error) {
+        if (!didCancel) {
+          dispatch({ type: "FETCH_FAILURE" });
+        }
+      }
+    };
+
+    url && fetchData();
+
+    return () => {
+      didCancel = true;
+    };
+  }, [url]);
+
+  return [state, setUrl];
+};
+
+export default useDataApi;
