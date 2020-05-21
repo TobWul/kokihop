@@ -31,8 +31,8 @@ const Pages = ({ recipes, setRecipeId, goToEditPage }) => {
       {bookLength > 0 ? (
         <>
           <SettingsMenu
-            editPage={goToEditPage}
             url={`${recipes[index]}`}
+            goToEditPage={goToEditPage}
             savedCount={null}
             prevUpdate={null}
           />

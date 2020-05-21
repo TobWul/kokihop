@@ -1,24 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditorRecipeBlockList from "../EditorRecipeBlockList/EditorRecipeBlockList";
 import styles from "./Editor.module.scss";
 import EditorAddBlock from "../EditorAddBlock/EditorAddBlock";
 import Button from "../Button/Button";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import useDataApi from "../../api/api";
 
-const Editor = ({ bookId, categoryId, recipeId }) => {
-  console.log(recipeId);
-
+const Editor = ({ bookId, categoryId }) => {
+  let initialBlocks = [{ type: "title", value: "fdsafds", id: "jfdksa8" }];
+  const [blocks, setBlocks] = useState(initialBlocks);
   const history = useHistory();
-  const url = recipeId ? `editor/${recipeId}` : null;
-  const [state] = useDataApi(url);
+  const location = useLocation();
+  const recipeId = location.state ? location.state.recipeId : null;
+  const url = recipeId ? `/recipe/${recipeId}` : null;
+  const [state] = useDataApi(url, setBlocks);
 
-  let initialBlocks = [{ type: "title", value: "", id: "jfdksa8" }];
   if (state.data) {
-    initialBlocks = state.data || initialBlocks;
+    initialBlocks = state.data.blocks || initialBlocks;
   }
 
-  const [blocks, setBlocks] = useState(initialBlocks);
+  useEffect(() => {
+    state.data && setBlocks(initialBlocks);
+  }, [state.isLoading, state.data, initialBlocks]);
 
   const blockIndex = (blockId) =>
     blocks.findIndex((block) => block.id === blockId);
@@ -62,6 +65,7 @@ const Editor = ({ bookId, categoryId, recipeId }) => {
         setBlocks={setBlocks}
       />
       <EditorAddBlock addBlock={addBlock} />
+      <Button onClick={() => setBlocks(state.data.blocks)}>Endre</Button>
       <Button onClick={save}>Lagre</Button>
     </div>
   );

@@ -45,7 +45,7 @@ const dataFetchReducer = (state, action) => {
   }
 };
 
-const useDataApi = (initialUrl, initialData) => {
+const useDataApi = (initialUrl, initialData, setComponentState) => {
   const [url, setUrl] = useState(initialUrl);
 
   const [state, dispatch] = useReducer(dataFetchReducer, {
@@ -66,8 +66,9 @@ const useDataApi = (initialUrl, initialData) => {
 
         if (!didCancel) {
           dispatch({ type: "FETCH_SUCCESS", payload: result });
-          consoleLoggingAPI(state);
+          consoleLoggingAPI(result);
         }
+        setComponentState && setComponentState(result);
       } catch (error) {
         if (!didCancel) {
           dispatch({ type: "FETCH_FAILURE" });

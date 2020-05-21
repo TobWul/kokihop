@@ -43,8 +43,8 @@ const RecipeBook = () => {
     history.push(`/bok/${bookId}/`);
     setSelectedCategoryId(id);
   };
-  const goToEditPage = () => {
-    history.push(editRecipUrl);
+  const goToEditPage = (recipeId) => {
+    history.push(editRecipUrl, { recipeId });
   };
 
   const newRecipe = () => {

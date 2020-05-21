@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 import Icon from "../Icon/Icon";
+import { Link } from "react-router-dom";
 
-const Button = ({ onClick, href, children, icon, secondary }) => {
-  if ((!onClick && !href) || (!children && !icon)) return null;
-
+const Button = ({ onClick, href, to, children, icon, secondary }) => {
+  if (!children) return null;
   const buttonClassName = [styles.button, secondary && styles.secondary].join(
     " "
   );
@@ -16,15 +16,26 @@ const Button = ({ onClick, href, children, icon, secondary }) => {
       {children}
     </>
   );
-  return href ? (
-    <a className={buttonClassName} href={href}>
-      <ButtonContent />
-    </a>
-  ) : (
-    <button onClick={onClick} className={buttonClassName}>
-      <ButtonContent />
-    </button>
-  );
+  if (href) {
+    return (
+      <a className={buttonClassName} href={href}>
+        <ButtonContent />
+      </a>
+    );
+  } else if (onClick) {
+    return (
+      <button onClick={onClick} className={buttonClassName}>
+        <ButtonContent />
+      </button>
+    );
+  } else if (to) {
+    return (
+      <Link to={to} className={buttonClassName}>
+        <ButtonContent />
+      </Link>
+    );
+  }
+  return null;
 };
 
 Button.propTypes = {

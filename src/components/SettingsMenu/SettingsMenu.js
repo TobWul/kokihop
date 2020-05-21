@@ -9,7 +9,7 @@ import { cn } from "../../lib/helpers";
 import RoundButton from "../Button/RoundButton";
 
 const SettingsMenu = ({
-  editPage,
+  goToEditPage,
   url,
   openSettings,
   savedCount,
@@ -55,7 +55,7 @@ const SettingsMenu = ({
           <SettingsItem
             name="Rediger oppskrift"
             icon="edit"
-            onClick={editPage}
+            onClick={() => goToEditPage(url)}
           />
           <SettingsItem name="Kopier linken" icon="hyperlink" onClick={copy} />
           {savedCount > 0 && <p>{savedCount} har lagret denn oppskriften</p>}
