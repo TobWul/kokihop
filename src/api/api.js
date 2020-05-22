@@ -9,14 +9,13 @@ const consoleLoggingAPI = (message) => {
   console.log("-------------------------\n");
 };
 
-const baseUrl = "localhost:8000/api/";
+const baseUrl = "http://localhost:4000";
 
 const apiCall = async (url, method) => {
-  const response = sampleLookup[url];
-  // const response = await fetch(baseUrl + url, {
-  //   method,
-  // })
-  return response;
+  // const response = sampleLookup[url];
+  const response = await fetch(baseUrl + url);
+  const result = await response.json();
+  return result;
 };
 
 const dataFetchReducer = (state, action) => {
@@ -85,5 +84,20 @@ const useDataApi = (initialUrl, initialData, setComponentState) => {
 
   return [state, setUrl];
 };
+
+export async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(baseUrl + url, {
+    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, *cors, same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
+  });
+  return response.json(); // parses JSON response into native JavaScript objects
+}
 
 export default useDataApi;

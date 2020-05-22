@@ -4,7 +4,7 @@ import styles from "./Editor.module.scss";
 import EditorAddBlock from "../EditorAddBlock/EditorAddBlock";
 import Button from "../Button/Button";
 import { useHistory, useLocation } from "react-router-dom";
-import useDataApi from "../../api/api";
+import useDataApi, { postData } from "../../api/api";
 
 const Editor = ({ bookId, categoryId }) => {
   let initialBlocks = [{ type: "title", value: "fdsafds", id: "jfdksa8" }];
@@ -21,7 +21,7 @@ const Editor = ({ bookId, categoryId }) => {
 
   useEffect(() => {
     state.data && setBlocks(initialBlocks);
-  }, [state.isLoading, state.data, initialBlocks]);
+  }, [state.isLoading, state.data]);
 
   const blockIndex = (blockId) =>
     blocks.findIndex((block) => block.id === blockId);
@@ -53,6 +53,7 @@ const Editor = ({ bookId, categoryId }) => {
   };
   const save = () => {
     console.log(blocks, bookId, categoryId);
+    postData("/recipes", { blocks });
     history.push(`/bok/${bookId}/${categoryId}`);
   };
   return (

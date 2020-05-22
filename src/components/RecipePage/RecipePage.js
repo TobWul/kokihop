@@ -9,7 +9,7 @@ import useDataApi, { getRecipeBlocks } from "../../api/api";
 import { useParams, useRouteMatch } from "react-router-dom";
 
 const RecipePage = ({ recipeId }) => {
-  const [state] = useDataApi(`/recipe/${recipeId}`);
+  const [state] = useDataApi(`/recipes/${recipeId}`);
   const { data = { blocks: [] } } = state;
   const { blocks } = data;
 

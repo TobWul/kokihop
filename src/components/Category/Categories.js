@@ -21,10 +21,10 @@ const Categories = ({
       />
       {categories.map((category) => (
         <CategoryLabel
-          id={category.id}
-          key={`category-${category.id}`}
+          id={category._id}
+          key={`category-${category._id}`}
           name={category.name}
-          active={selectedCategoryId === category.id}
+          active={selectedCategoryId === category._id}
           changeCategory={changeCategory}
         />
       ))}

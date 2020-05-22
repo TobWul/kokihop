@@ -22,7 +22,7 @@ const RecipeBook = () => {
   const history = useHistory();
   const { pathname } = useLocation();
 
-  const [state] = useDataApi(`/bok/${bookId}/`);
+  const [state] = useDataApi(`/books/${bookId}/`);
   const { data = {} } = state;
   let { categories = [] } = data;
   categories = [{ id: "index" }, ...categories];
@@ -52,6 +52,8 @@ const RecipeBook = () => {
     history.push(editRecipUrl);
   };
 
+  console.log(categories);
+
   return (
     <>
       <div className={styles.bookContainer}>
@@ -74,7 +76,7 @@ const RecipeBook = () => {
               />
             </Route>
             {categories.map((category) => (
-              <Route path={`${path}/${category.id}/`} key={category.id}>
+              <Route path={`${path}/${category._id}/`} key={category._id}>
                 <Pages
                   recipes={category.recipes}
                   setRecipeId={setRecipeId}
