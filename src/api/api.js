@@ -10,7 +10,7 @@ const consoleLoggingAPI = (message) => {
   console.log("-------------------------\n");
 };
 
-const baseUrl = process.env.API_URL || "http://localhost:4000";
+const baseUrl = process.env.API_URL || "https://kokihop.herokuapp.com";
 
 const apiCall = async (url, method) => {
   // const response = sampleLookup[url];
