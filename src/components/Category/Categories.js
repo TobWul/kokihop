@@ -4,20 +4,15 @@ import CategoryLabel from "./CategoryLabel";
 import { category } from "../../lib/propTypes";
 import styles from "./Category.module.scss";
 
-const Categories = ({
-  categories,
-  changeCategory,
-  goToIndex,
-  selectedCategoryId,
-}) => {
+const Categories = ({ categories, changeCategory, selectedCategoryId }) => {
   const index = categories.shift();
   return (
     <div className={styles.wrapper}>
       <CategoryLabel
         id={index.id}
         name="Indeks"
-        active={selectedCategoryId === index.id}
-        changeCategory={goToIndex}
+        active={selectedCategoryId === index._id}
+        changeCategory={() => changeCategory(index._id)}
       />
       {categories.map((category) => (
         <CategoryLabel

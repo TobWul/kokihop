@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import MenuCard from "../MenuCard/MenuCard";
 import AddBlockButton from "./AddBlockButton";
 import styles from "./EditorAddBlock.module.scss";
 import RoundButton from "../Button/RoundButton";
-import { cn } from "../../lib/helpers";
+import { cn, mongoObjectId } from "../../lib/helpers";
+import { EditorContext } from "../../context/EditorContext";
 
-const EditorAddBlock = ({ addBlock: editorAddBlock }) => {
+const EditorAddBlock = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const addBlock = (type) => {
-    editorAddBlock(type);
+  const { addBlock: editorAddBlock } = useContext(EditorContext);
+  const addBlock = (type, initialValue) => {
+    editorAddBlock(type, initialValue);
     setShowMenu(false);
   };
   const clickOutsideHandler = () => {
@@ -33,7 +35,9 @@ const EditorAddBlock = ({ addBlock: editorAddBlock }) => {
         <AddBlockButton
           name="Ingredienser"
           icon="ingredients"
-          addBlock={() => addBlock("ingredients")}
+          addBlock={() =>
+            addBlock("ingredients", [{ _id: mongoObjectId(), value: "" }])
+          }
         />
         <AddBlockButton
           name="Bilde"

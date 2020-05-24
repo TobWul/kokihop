@@ -20,6 +20,10 @@ textarea.textBlock {
   outline: 0;
   width: 100%;
   white-space: pre-wrap;
+
+  p {
+    margin: 0;
+  }
 }
 
 .ingredientsBlock {

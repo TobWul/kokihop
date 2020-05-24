@@ -1,43 +1,40 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize, bindKeyboard } from "react-swipeable-views-utils";
 import RecipePage from "../RecipePage/RecipePage";
 import Paginator from "../Paginator/Paginator";
-import { useParams, useHistory, useLocation } from "react-router-dom";
 import PageEmptyState from "../PageEmptyState/PageEmptyState";
 import SettingsMenu from "../SettingsMenu/SettingsMenu";
-import RoundButton from "../Button/RoundButton";
+import { RecipeContext } from "../../context/RecipeContext";
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
-const Pages = ({ recipes, setRecipeId, goToEditPage }) => {
-  const [index, setIndex] = useState(0);
-
-  const bookLength = recipes.length;
+const Pages = () => {
+  const { recipeIdList, currentPage, setCurrentPage, setRecipeId } = useContext(
+    RecipeContext
+  );
+  const bookLength = recipeIdList.length;
+  if (currentPage >= bookLength) setCurrentPage(0);
   const handleChangeIndex = (index) => {
-    setIndex(index);
-    setRecipeId(recipes[index]);
+    setCurrentPage(index);
+    setRecipeId(recipeIdList[index]);
   };
 
   const slideRenderer = (params) => {
     const { index, key } = params;
-    return <RecipePage key={key} recipeId={recipes[index]} />;
+    return <RecipePage key={key} recipeId={recipeIdList[index]} />;
   };
-  const nextPage = () => index < bookLength - 1 && setIndex(index + 1);
-  const prevPage = () => index > 0 && setIndex(index - 1);
+  const nextPage = () =>
+    currentPage < bookLength - 1 && setCurrentPage(currentPage + 1);
+  const prevPage = () => currentPage > 0 && setCurrentPage(currentPage - 1);
 
   return (
     <div>
       {bookLength > 0 ? (
         <>
-          <SettingsMenu
-            url={`${recipes[index]}`}
-            goToEditPage={goToEditPage}
-            savedCount={null}
-            prevUpdate={null}
-          />
+          <SettingsMenu savedCount={null} prevUpdate={null} />
           <VirtualizeSwipeableViews
-            index={index}
+            index={currentPage}
             onChangeIndex={handleChangeIndex}
             slideRenderer={slideRenderer}
             slideCount={bookLength}
@@ -46,7 +43,7 @@ const Pages = ({ recipes, setRecipeId, goToEditPage }) => {
             nextPage={nextPage}
             bookLength={bookLength}
             prevPage={prevPage}
-            currentPage={index}
+            currentPage={currentPage}
           />
         </>
       ) : (
@@ -54,10 +51,6 @@ const Pages = ({ recipes, setRecipeId, goToEditPage }) => {
       )}
     </div>
   );
-};
-
-Pages.defaultProps = {
-  bookLength: 20,
 };
 
 export default Pages;

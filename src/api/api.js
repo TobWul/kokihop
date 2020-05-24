@@ -44,7 +44,7 @@ const dataFetchReducer = (state, action) => {
   }
 };
 
-const useDataApi = (initialUrl, initialData, setComponentState) => {
+const useDataApi = (initialUrl, initialData) => {
   const [url, setUrl] = useState(initialUrl);
 
   const [state, dispatch] = useReducer(dataFetchReducer, {
@@ -67,7 +67,6 @@ const useDataApi = (initialUrl, initialData, setComponentState) => {
           dispatch({ type: "FETCH_SUCCESS", payload: result });
           consoleLoggingAPI(result);
         }
-        setComponentState && setComponentState(result);
       } catch (error) {
         if (!didCancel) {
           dispatch({ type: "FETCH_FAILURE" });
@@ -85,10 +84,10 @@ const useDataApi = (initialUrl, initialData, setComponentState) => {
   return [state, setUrl];
 };
 
-export async function postData(url = "", data = {}) {
+export async function api(url = "", method, data = {}) {
   // Default options are marked with *
   const response = await fetch(baseUrl + url, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
+    method, // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, *cors, same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {

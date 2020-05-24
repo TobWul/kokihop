@@ -17,8 +17,10 @@
     opacity: 0;
     transform: translate(-50%, 20px);
     transition: transform 200ms ease-in-out, opacity 200ms ease-in-out;
+    pointer-events: none;
 
     &.show {
+        pointer-events: auto;
         opacity: 1;
         transform: translate(-50%, 0);
     }

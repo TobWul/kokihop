@@ -6,7 +6,7 @@ import "medium-editor/dist/css/medium-editor.min.css";
 import "medium-editor/dist/css/themes/beagle.min.css";
 
 const EditorTextBlock = ({ block, updateBlockValue }) => {
-  const { value } = block;
+  const { value = "" } = block;
   useEffect(() => {
     const config = {
       placeholder: {
@@ -22,34 +22,14 @@ const EditorTextBlock = ({ block, updateBlockValue }) => {
       },
     };
 
-    const editor = new MediumEditor("#editor", config);
+    const editor = new MediumEditor(`#editor-${block._id}`, config);
     editor.setContent(value);
     editor.subscribe("editableInput", (eventObj, editable) => {
-      updateBlockValue(block.id, editor.getContent());
+      updateBlockValue(block._id, editor.getContent());
     });
   }, []);
 
-  const handleChange = (e) => {
-    console.log(e.target.value);
-  };
-  return (
-    <div id="editor" className={styles.textBlock} onChange={handleChange} />
-  );
-};
-
-const EditButton = (props) => {
-  return (
-    <button
-      key={props.cmd}
-      onMouseDown={(evt) => {
-        evt.preventDefault(); // Avoids loosing focus from the editable area
-        document.execCommand(props.cmd, false, props.arg); // Send the command to the browser
-      }}
-    >
-      <Icon icon={props.icon} />
-      {props.name || props.cmd}
-    </button>
-  );
+  return <div id={`editor-${block._id}`} className={styles.textBlock} />;
 };
 
 export default EditorTextBlock;

@@ -14,7 +14,7 @@ const RecipePage = ({ recipeId }) => {
   const { blocks } = data;
 
   const serializer = (block) => {
-    const blockProps = { key: block.id, block };
+    const blockProps = { key: block._id, block };
     const blockTypes = {
       title: <TitleBlock {...blockProps} />,
       text: <TextBlock {...blockProps} />,

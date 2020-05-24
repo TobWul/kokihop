@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import EditorTextBlock from "../EditorBlocks/EditorTextBlock";
 import EditorImageBlock from "../EditorBlocks/EditorImageBlock";
@@ -8,18 +8,13 @@ import styles from "./EditorRecipeBlock.module.scss";
 import DragHandle from "../DragHandle/DragHandle";
 import { cn } from "../../lib/helpers";
 import EditorTitleBlock from "../EditorBlocks/EditorTitleBlock";
+import { EditorContext } from "../../context/EditorContext";
 
-const EditorRecipeBlockWrapper = ({
-  block,
-  updateBlockValue,
-  deleteBlock,
-  moving,
-}) => {
-  const blockProps = {
-    block,
-    updateBlockValue,
-    moving,
-  };
+const EditorRecipeBlockWrapper = ({ block }) => {
+  const { deleteBlock, updateBlockValue } = useContext(EditorContext);
+  const blockProps = { block, deleteBlock, updateBlockValue };
+  console.log(block);
+
   const serializer = {
     title: <EditorTitleBlock {...blockProps} />,
     text: <EditorTextBlock {...blockProps} />,
@@ -34,7 +29,7 @@ const EditorRecipeBlockWrapper = ({
       <button
         className={styles.delete}
         aria-label="Delete block"
-        onClick={() => deleteBlock(block.id)}
+        onClick={() => deleteBlock(block._id)}
       >
         <Icon icon="delete" />
       </button>

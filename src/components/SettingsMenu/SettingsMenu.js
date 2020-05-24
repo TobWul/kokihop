@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import PropTypes from "prop-types";
 import MenuCard from "../MenuCard/MenuCard";
 import SettingsItem from "./SettingsItem";
@@ -7,19 +7,15 @@ import CopiedLinkToast from "./CopiedLinkToast";
 import styles from "./SettingsMenu.module.scss";
 import { cn } from "../../lib/helpers";
 import RoundButton from "../Button/RoundButton";
+import { deleteRecipe } from "../../api/recipe";
+import { RecipeContext } from "../../context/RecipeContext";
 
-const SettingsMenu = ({
-  goToEditPage,
-  url,
-  openSettings,
-  savedCount,
-  prevUpdate,
-}) => {
+const SettingsMenu = ({ savedCount, prevUpdate }) => {
+  const { recipeId, navigate, bookId, categoryId } = useContext(RecipeContext);
   const [copied, setCopied] = useState(false);
   const [isOpen, setOpen] = useState(false);
 
   const copyRef = useRef(null);
-  const buttonRef = useRef(null);
 
   const toggleMenu = () => {
     setOpen(!isOpen);
@@ -40,22 +36,21 @@ const SettingsMenu = ({
   }
   return (
     <>
-      <RoundButton
-        icon="menu"
-        onClick={toggleMenu}
-        fab="top right"
-        ref={buttonRef}
-      />
+      <RoundButton icon="menu" onClick={toggleMenu} fab="top right" />
 
       <div className={cn(styles.settingsMenuWrapper, isOpen && styles.isOpen)}>
-        <MenuCard
-          clickOutsideHandler={() => setOpen(false)}
-          safeRefs={[buttonRef]}
-        >
+        <MenuCard clickOutsideHandler={() => setOpen(false)}>
           <SettingsItem
             name="Rediger oppskrift"
             icon="edit"
-            onClick={() => goToEditPage(url)}
+            onClick={() =>
+              navigate("/ny-oppskrift", { recipeId, bookId, categoryId })
+            }
+          />
+          <SettingsItem
+            name="Slett oppskrift"
+            icon="delete"
+            onClick={() => deleteRecipe(recipeId, categoryId)}
           />
           <SettingsItem name="Kopier linken" icon="hyperlink" onClick={copy} />
           {savedCount > 0 && <p>{savedCount} har lagret denn oppskriften</p>}
@@ -67,7 +62,8 @@ const SettingsMenu = ({
             id="copy"
             type="text"
             ref={copyRef}
-            value={url}
+            value={`http://localhost:3000/oppskrift/${recipeId}`}
+            readOnly
             className={styles.copyInput}
           />
         </MenuCard>

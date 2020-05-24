@@ -5,8 +5,8 @@ const IngredientsList = ({ block }) => {
   const { value } = block;
   return (
     <ul>
-      {value.map((ingredient, index) => (
-        <li key={`ingredient-${index}`}>{ingredient}</li>
+      {value.map((ingredient) => (
+        <li key={ingredient._id}>{ingredient.value}</li>
       ))}
     </ul>
   );

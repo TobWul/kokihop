@@ -8,7 +8,7 @@ const TitleBlock = ({ block, updateBlockValue }) => {
       value={block.value}
       debounceTimeout={1000}
       minLength={1}
-      onChange={(e) => updateBlockValue(block.id, e.target.value)}
+      onChange={(e) => updateBlockValue(block._id, e.target.value)}
       className={styles.titleBlock}
       placeholder="Tittel..."
     />

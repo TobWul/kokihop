@@ -25,6 +25,7 @@ textarea,
 select {
   font-family: "DM Sans", sans-serif;
   font-size: 1rem;
+  line-height: 1.6em;
 }
 
 button {
@@ -48,4 +49,13 @@ textarea {
 h1 {
   font-family: "Alice", serif;
   font-weight: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: 1.2em;
 }
