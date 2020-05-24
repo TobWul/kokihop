@@ -2,6 +2,7 @@ import blocksData from "./sample/blocks.json";
 import sampleLookup from "./sample/sampleLookup";
 import { useEffect, useState, useReducer } from "react";
 import { useRouteMatch, useLocation } from "react-router-dom";
+require("dotenv/config");
 
 const consoleLoggingAPI = (message) => {
   console.log("\n---------- API ----------");
@@ -9,7 +10,7 @@ const consoleLoggingAPI = (message) => {
   console.log("-------------------------\n");
 };
 
-const baseUrl = "http://localhost:4000";
+const baseUrl = process.env.API_URL || "http://localhost:4000";
 
 const apiCall = async (url, method) => {
   // const response = sampleLookup[url];
