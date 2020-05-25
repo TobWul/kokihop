@@ -18,7 +18,7 @@ const Landing = () => {
           <Button to="/create-book">Create your book</Button>
           <br />
           <br />
-          <Link to="bok/5ec90b9a212f8d0dc002851f">Gå til din bok</Link>
+          <Link to="bok/5eca7bca231fe800243a89fa">Gå til din bok</Link>
         </div>
         <img src={landingPageImg} alt="Kokihop, an online personal cookbook" />
       </header>

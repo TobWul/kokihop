@@ -16,11 +16,10 @@ const Categories = ({ categories, changeCategory, selectedCategoryId }) => {
       />
       {categories.map((category) => (
         <CategoryLabel
-          id={category._id}
           key={`category-${category._id}`}
           name={category.name}
           active={selectedCategoryId === category._id}
-          changeCategory={changeCategory}
+          changeCategory={() => changeCategory(category._id)}
         />
       ))}
     </div>

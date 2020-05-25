@@ -4,11 +4,11 @@ import { cn } from "../../lib/helpers";
 import styles from "./Category.module.scss";
 import { category } from "../../lib/propTypes";
 
-const CategoryLabel = ({ name, active, changeCategory, id }) => {
+const CategoryLabel = ({ name, active, changeCategory }) => {
   return (
     <button
       className={cn(styles.label, active && styles.active)}
-      onClick={() => changeCategory(id)}
+      onClick={changeCategory}
     >
       <span>{name}</span>
     </button>

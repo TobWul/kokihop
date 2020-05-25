@@ -80,7 +80,7 @@ const useDataApi = (initialUrl, initialData) => {
     return () => {
       didCancel = true;
     };
-  }, [url]);
+  }, [url, initialUrl]);
 
   return [state, setUrl];
 };

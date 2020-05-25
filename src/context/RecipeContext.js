@@ -14,26 +14,27 @@ const RecipeContextProvider = ({ children }) => {
   const [recipeIdList, setRecipeIdList] = useState([]);
 
   const [state] = useDataApi(`/books/${bookId}/`);
+
   const { data = {} } = state;
   let { categories = [] } = data;
   categories = [{ _id: "index" }, ...categories];
-  console.log(recipeId);
 
   useEffect(() => {
     setBookId(params.bookId);
   }, [params.bookId]);
 
   useEffect(() => {
-    const currentCategory = categories.find((category) => category._id) || {
+    const currentCategory = categories.find(
+      (category) => categoryId === category._id
+    ) || {
       recipes: [],
     };
+
     setRecipeIdList(currentCategory.recipes);
     setRecipeId(currentCategory.recipes[currentPage]);
   }, [categoryId]);
 
   const navigate = (url, data) => {
-    console.log(url, data);
-
     history.push({ pathname: url, state: { ...data } });
   };
 

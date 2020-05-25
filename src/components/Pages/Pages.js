@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize, bindKeyboard } from "react-swipeable-views-utils";
 import RecipePage from "../RecipePage/RecipePage";
@@ -10,9 +10,13 @@ import { RecipeContext } from "../../context/RecipeContext";
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
 const Pages = () => {
-  const { recipeIdList, currentPage, setCurrentPage, setRecipeId } = useContext(
-    RecipeContext
-  );
+  const {
+    recipeIdList,
+    currentPage,
+    setCurrentPage,
+    setRecipeId,
+    recipeId,
+  } = useContext(RecipeContext);
   const bookLength = recipeIdList.length;
   if (currentPage >= bookLength) setCurrentPage(0);
   const handleChangeIndex = (index) => {
@@ -24,6 +28,7 @@ const Pages = () => {
     const { index, key } = params;
     return <RecipePage key={key} recipeId={recipeIdList[index]} />;
   };
+
   const nextPage = () =>
     currentPage < bookLength - 1 && setCurrentPage(currentPage + 1);
   const prevPage = () => currentPage > 0 && setCurrentPage(currentPage - 1);
