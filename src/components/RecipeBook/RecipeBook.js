@@ -5,9 +5,25 @@ import BookIndex from "../BookIndex/BookIndex";
 import styles from "./RecipeBook.module.scss";
 import RoundButton from "../Button/RoundButton";
 import { RecipeContext } from "../../context/RecipeContext";
+import withAuthorization from "../HOC/withAuthorization";
+import { useState } from "react";
+import { useEffect } from "react";
+import withAuthentication from "../HOC/withAuthentication";
+import { withFirebase } from "../../firebase/context";
 
-const RecipeBook = () => {
-  const { navigate, categoryId, bookId } = useContext(RecipeContext);
+const RecipeBook = ({ user, firebase }) => {
+  const { navigate, categoryId, bookId, setBook, book } = useContext(
+    RecipeContext
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await firebase.getBook(user.uid);
+      console.log(result);
+      setBook(result);
+    }
+    fetchData();
+  }, []);
 
   const newRecipe = () => {
     navigate("/ny-oppskrift", { categoryId, bookId });
@@ -16,7 +32,7 @@ const RecipeBook = () => {
   return (
     <>
       <div className={styles.bookContainer}>
-        <CategoryContainer />
+        <CategoryContainer categories={book.categories} />
         <div className={styles.pageWrapper}>
           {categoryId === "index" ? <BookIndex /> : <Pages />}
           {categoryId !== "index" && (
@@ -28,4 +44,4 @@ const RecipeBook = () => {
   );
 };
 
-export default RecipeBook;
+export default withFirebase(withAuthentication(RecipeBook));

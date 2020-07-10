@@ -4,13 +4,17 @@ import Button from "../Button/Button";
 import styles from "./LandingPage.module.scss";
 
 import landingPageImg from "../../assets/img/landingPage.png";
+import withAuthentication from "../HOC/withAuthentication";
+import { withFirebase } from "../../firebase/context";
 
-const Landing = () => {
+const Landing = ({ user, firebase }) => {
   return (
     <div>
       <header className={styles.header}>
         <div className={styles.text}>
           <h1>Kokihop</h1>
+
+          <p>{user && user.name}</p>
           <p>
             An online personal recipe book based on the magazine cutout book my
             mom and grandmothers had throughout my childhood.
@@ -18,7 +22,9 @@ const Landing = () => {
           <Button to="/create-book">Create your book</Button>
           <br />
           <br />
-          <Link to="bok/5eca7bca231fe800243a89fa">Gå til din bok</Link>
+          {user && (
+            <Link to="bok/5eca7bca231fe800243a89fa">Gå til din bok</Link>
+          )}
         </div>
         <img src={landingPageImg} alt="Kokihop, an online personal cookbook" />
       </header>
@@ -26,4 +32,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default withAuthentication(Landing);

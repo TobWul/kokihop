@@ -4,12 +4,15 @@ import "./styles/index.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import Firebase, { FirebaseContextProvider } from "./firebase";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <FirebaseContextProvider value={new Firebase()}>
+      <Router>
+        <App />
+      </Router>
+    </FirebaseContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

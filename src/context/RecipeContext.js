@@ -12,6 +12,7 @@ const RecipeContextProvider = ({ children }) => {
   const [bookId, setBookId] = useState(params.bookId);
   const [currentPage, setCurrentPage] = useState(0);
   const [recipeIdList, setRecipeIdList] = useState([]);
+  const [book, setBook] = useState();
 
   const [state] = useDataApi(`/books/${bookId}/`);
 
@@ -31,6 +32,7 @@ const RecipeContextProvider = ({ children }) => {
     };
 
     setRecipeIdList(currentCategory.recipes);
+    if (currentPage >= currentCategory.recipes.length) setCurrentPage(0);
     setRecipeId(currentCategory.recipes[currentPage]);
   }, [categoryId]);
 
@@ -52,6 +54,8 @@ const RecipeContextProvider = ({ children }) => {
         setCurrentPage,
         categories,
         recipeIdList,
+        book,
+        setBook,
       }}
     >
       {children}

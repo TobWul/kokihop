@@ -4,7 +4,7 @@ import styles from "./Button.module.scss";
 import Icon from "../Icon/Icon";
 import { Link } from "react-router-dom";
 
-const Button = ({ onClick, href, to, children, icon, secondary }) => {
+const Button = ({ onClick, href, to, children, icon, secondary, type }) => {
   if (!children) return null;
   const buttonClassName = [styles.button, secondary && styles.secondary].join(
     " "
@@ -22,9 +22,9 @@ const Button = ({ onClick, href, to, children, icon, secondary }) => {
         <ButtonContent />
       </a>
     );
-  } else if (onClick) {
+  } else if (onClick || type === "submit") {
     return (
-      <button onClick={onClick} className={buttonClassName}>
+      <button onClick={onClick} className={buttonClassName} type={type}>
         <ButtonContent />
       </button>
     );

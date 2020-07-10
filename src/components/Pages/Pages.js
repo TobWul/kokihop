@@ -18,7 +18,6 @@ const Pages = () => {
     recipeId,
   } = useContext(RecipeContext);
   const bookLength = recipeIdList.length;
-  if (currentPage >= bookLength) setCurrentPage(0);
   const handleChangeIndex = (index) => {
     setCurrentPage(index);
     setRecipeId(recipeIdList[index]);

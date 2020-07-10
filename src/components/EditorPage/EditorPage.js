@@ -9,7 +9,7 @@ import { createRecipe, updateRecipe } from "../../api/recipe";
 import { EditorContext } from "../../context/EditorContext";
 import { mongoObjectId } from "../../lib/helpers";
 
-const Editor = () => {
+const EditorPage = () => {
   const { state } = useLocation();
   const { recipeId, bookId, categoryId } = state || {};
   const url = `/bok/${bookId}`;
@@ -48,4 +48,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default EditorPage;
