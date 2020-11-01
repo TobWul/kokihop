@@ -1,0 +1,37 @@
+:root {
+  --primary-300: #f5eee6;
+  --primary-200: #f9f7f4;
+  --primary-100: #ffffff;
+  --secondary-800: #162135;
+  --secondary-600: #4b6285;
+  --accent: #f9b198;
+
+  --main-border-radius: 8px;
+
+  --font-family-display: "Alice", serif;
+  --font-family-body: "DM Sans", sans-serif;
+
+  --nav-height: 3rem;
+  --page-horizontal-padding: 5%;
+  --footer-height: 5rem;
+
+  --depth-1: 0px 0.181152px 0.317016px rgba(22, 33, 53, 0.0243888),
+    0px 0.500862px 0.876509px rgba(22, 33, 53, 0.035),
+    0px 1.20588px 2.1103px rgba(22, 33, 53, 0.0456112),
+    0px 4px 7px rgba(22, 33, 53, 0.07);
+  --depth-2: 0px 0.769896px 1.63037px rgba(22, 33, 53, 0.0243888),
+    0px 2.12866px 4.50776px rgba(22, 33, 53, 0.035),
+    0px 5.125px 10.8529px rgba(22, 33, 53, 0.0456112),
+    0px 17px 36px rgba(22, 33, 53, 0.07);
+  --depth-3: 0px 1.13458px 3.32071px rgba(22, 33, 53, 0.0196802),
+    0px 2.72654px 7.98012px rgba(22, 33, 53, 0.0282725),
+    0px 5.13384px 15.0259px rgba(22, 33, 53, 0.035),
+    0px 9.15789px 26.8036px rgba(22, 33, 53, 0.0417275),
+    0px 17.1288px 50.1331px rgba(22, 33, 53, 0.0503198),
+    0px 41px 120px rgba(22, 33, 53, 0.07);
+  --depth-4: 0px 2.71357px 4.19057px rgba(22, 33, 53, 0.0279017),
+    0px 6.86281px 10.5983px rgba(22, 33, 53, 0.0399338),
+    0px 13.9995px 21.6195px rgba(22, 33, 53, 0.0500662),
+    0px 28.8363px 44.532px rgba(22, 33, 53, 0.0620983),
+    0px 79px 122px rgba(22, 33, 53, 0.09);
+}

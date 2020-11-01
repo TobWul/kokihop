@@ -1,0 +1,13 @@
+.nav {
+  padding: 1rem var(--page-horizontal-padding);
+  display: flex;
+  justify-content: space-between;
+  .links {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style-type: none;
+      display: inline;
+    }
+  }
+}

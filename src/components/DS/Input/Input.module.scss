@@ -1,0 +1,15 @@
+.inputContainer {
+  position: relative;
+  margin-bottom: 1rem;
+
+  input,
+  textarea,
+  select {
+    background-color: var(--primary-100);
+    border: 1.5px solid var(--secondary-800);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    outline: 0;
+  }
+}

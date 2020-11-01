@@ -1,77 +1,57 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
-import Landing from "./components/Landing/Landing";
-import RecipeBook from "./components/RecipeBook/RecipeBook";
-import { RecipeContextProvider } from "./context/RecipeContext";
-import Editor from "./components/Editor/Editor";
-import { EditorContextProvider } from "./context/EditorContext";
-import LinkedRecipePage from "./components/LinkedRecipePage/LinkedRecipePage";
-import Signup from "./components/AuthPages/Signup/Signup";
-import Login from "./components/AuthPages/Login/Login";
-import ForgotPassword from "./components/AuthPages/ForgotPassword/ForgotPassword";
-import NoMatchPage from "./components/NoMatchPage/NoMatchPage";
-import ROUTES from "./lib/Routes";
-import { useEffect } from "react";
-import { useState } from "react";
-import { withFirebase } from "./firebase/context";
-import withAuthentication from "./components/HOC/withAuthentication";
-import UserContext from "./context/UserContext";
-import PrivateRoute from "./lib/PrivateRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import ROUTES from "./Routes/Routes";
+import PrivateRoute from "./Routes/PrivateRoute";
+import IndexPage from "./pages/IndexPage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import "./styles/index.scss";
+import { AuthProvider } from "./context/authContext";
 
-const App = ({ firebase }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const authListener = firebase.auth.onAuthStateChanged((user) => {
-      setUser(user || null);
-      setLoading(false);
-    });
-    return () => authListener();
-  });
-  return (
-    <UserContext.Provider value={user}>
-      {loading ? (
-        ""
-      ) : (
+const API_URL = process.API_URL || "http://localhost:5000";
+
+const client = new ApolloClient({
+  uri: API_URL,
+  cache: new InMemoryCache(),
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("jwtToken") || "",
+  },
+});
+
+const App = () => (
+  <ApolloProvider client={client}>
+    <AuthProvider>
+      <Router>
         <Switch>
           <Route exact path={ROUTES.HOME}>
-            <Landing />
+            <IndexPage />
           </Route>
           <Route exact path={ROUTES.REGISTER}>
-            <Signup />
+            <RegisterPage />
           </Route>
           <Route exact path={ROUTES.LOGIN}>
-            <Login />
+            <LoginPage />
           </Route>
           <Route exact path={ROUTES.FORGOT_PASSWORD}>
-            <ForgotPassword />
+            {"<ForgotPassword />"}
           </Route>
-          <PrivateRoute
-            path={ROUTES.USER_BOOK}
-            allowedCondition={user !== null}
-          >
-            <RecipeContextProvider>
-              <RecipeBook />
-            </RecipeContextProvider>
+          <PrivateRoute path={ROUTES.USER_BOOK} allowedCondition={true}>
+            {`<RecipeContextProvider>
+            <RecipeBook />
+          </RecipeContextProvider>`}
           </PrivateRoute>
-          <PrivateRoute
-            path={ROUTES.NEW_RECIPE}
-            allowedCondition={user !== null}
-          >
-            <EditorContextProvider>
-              <Editor />
-            </EditorContextProvider>
+          <PrivateRoute path={ROUTES.NEW_RECIPE} allowedCondition={true}>
+            {`<EditorContextProvider>
+            <Editor />
+          </EditorContextProvider>`}
           </PrivateRoute>
-          <Route path={ROUTES.PUBLIC_RECIPE}>
-            <LinkedRecipePage />
-          </Route>
-          <Route>
-            <NoMatchPage />
-          </Route>
+          <Route path={ROUTES.PUBLIC_RECIPE}>{"<LinkedRecipePage />"}</Route>
+          <Route>{"404"}</Route>
         </Switch>
-      )}
-    </UserContext.Provider>
-  );
-};
+      </Router>
+    </AuthProvider>
+  </ApolloProvider>
+);
 
-export default withFirebase(App);
+export default App;
