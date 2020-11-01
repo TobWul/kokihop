@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Button from "../components/DS/Button/Button";
 import Input from "../components/DS/Input/Input";
@@ -21,7 +21,7 @@ const LoginPage = () => {
     }
   );
 
-  const [loginUser, { loading }] = useMutation(LOGIN, {
+  const [loginUser] = useMutation(LOGIN, {
     update(_, { data: { login: userData } }) {
       context.login(userData);
       history.push(ROUTES.HOME);

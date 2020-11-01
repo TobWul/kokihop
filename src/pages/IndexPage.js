@@ -6,15 +6,7 @@ import Button from "../components/DS/Button/Button";
 import ROUTES from "../Routes/Routes";
 
 const IndexPage = () => {
-  const RECIPES = gql`
-    query {
-      getRecipes {
-        title
-      }
-    }
-  `;
-  const { data, error, loading } = useQuery(BOOKS);
-  console.log(data);
+  const { data } = useQuery(BOOKS);
   return (
     <Layout>
       <Heading1>Kokihop</Heading1>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import ROUTES from "./Routes/Routes";
@@ -7,9 +7,9 @@ import IndexPage from "./pages/IndexPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import "./styles/index.scss";
-import { AuthProvider } from "./context/authContext";
+import { AuthContext, AuthProvider } from "./context/authContext";
 
-const API_URL = process.API_URL || "http://localhost:5000";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const client = new ApolloClient({
   uri: API_URL,
@@ -19,39 +19,50 @@ const client = new ApolloClient({
   },
 });
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <AuthProvider>
-      <Router>
-        <Switch>
-          <Route exact path={ROUTES.HOME}>
-            <IndexPage />
-          </Route>
-          <Route exact path={ROUTES.REGISTER}>
-            <RegisterPage />
-          </Route>
-          <Route exact path={ROUTES.LOGIN}>
-            <LoginPage />
-          </Route>
-          <Route exact path={ROUTES.FORGOT_PASSWORD}>
-            {"<ForgotPassword />"}
-          </Route>
-          <PrivateRoute path={ROUTES.USER_BOOK} allowedCondition={true}>
-            {`<RecipeContextProvider>
+console.log(API_URL);
+
+const App = () => {
+  const { user } = useContext(AuthContext);
+  return (
+    <ApolloProvider client={client}>
+      <AuthProvider>
+        <Router>
+          <Switch>
+            <Route exact path={ROUTES.HOME}>
+              <IndexPage />
+            </Route>
+            <Route exact path={ROUTES.REGISTER}>
+              <RegisterPage />
+            </Route>
+            <Route exact path={ROUTES.LOGIN}>
+              <LoginPage />
+            </Route>
+            <Route exact path={ROUTES.FORGOT_PASSWORD}>
+              {"<ForgotPassword />"}
+            </Route>
+            <PrivateRoute
+              path={ROUTES.USER_BOOK}
+              allowedCondition={user !== null}
+            >
+              {`<RecipeContextProvider>
             <RecipeBook />
           </RecipeContextProvider>`}
-          </PrivateRoute>
-          <PrivateRoute path={ROUTES.NEW_RECIPE} allowedCondition={true}>
-            {`<EditorContextProvider>
+            </PrivateRoute>
+            <PrivateRoute
+              path={ROUTES.NEW_RECIPE}
+              allowedCondition={user !== null}
+            >
+              {`<EditorContextProvider>
             <Editor />
           </EditorContextProvider>`}
-          </PrivateRoute>
-          <Route path={ROUTES.PUBLIC_RECIPE}>{"<LinkedRecipePage />"}</Route>
-          <Route>{"404"}</Route>
-        </Switch>
-      </Router>
-    </AuthProvider>
-  </ApolloProvider>
-);
+            </PrivateRoute>
+            <Route path={ROUTES.PUBLIC_RECIPE}>{"<LinkedRecipePage />"}</Route>
+            <Route>{"404"}</Route>
+          </Switch>
+        </Router>
+      </AuthProvider>
+    </ApolloProvider>
+  );
+};
 
 export default App;

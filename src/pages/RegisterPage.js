@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import React, { useContext, useReducer, useState } from "react";
+import React, { useContext } from "react";
 import Input from "../components/DS/Input/Input";
 import Button from "../components/DS/Button/Button";
 import Layout from "../components/LandingPage/Layout/Layout";
@@ -21,7 +21,7 @@ const RegisterPage = () => {
     }
   );
 
-  const [createNewUser, { loading }] = useMutation(CREATE_USER, {
+  const [createNewUser] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
       login(userData);
       history.push(ROUTES.HOME);
