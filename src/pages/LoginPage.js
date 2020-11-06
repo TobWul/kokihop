@@ -1,17 +1,22 @@
 import { gql, useMutation } from "@apollo/client";
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import Button from "../components/DS/Button/Button";
 import Input from "../components/DS/Input/Input";
 import { Heading1 } from "../components/DS/Typography/Typography";
 import Layout from "../components/LandingPage/Layout/Layout";
 import { AuthContext } from "../context/authContext";
 import useAuthForm from "../hooks/useAuthForm";
-import ROUTES from "../Routes/Routes";
+import { ROUTES } from "../Routes/Router";
 
-const LoginPage = () => {
+const LoginPage = (props) => {
+  const location = useLocation();
   const history = useHistory();
   const context = useContext(AuthContext);
+
+  useEffect(() => {
+    context.user !== null && history.push(ROUTES.HOME);
+  });
 
   const { userInput, errors, setErrors, onChange, onSubmit } = useAuthForm(
     loginCallback,
@@ -24,10 +29,11 @@ const LoginPage = () => {
   const [loginUser] = useMutation(LOGIN, {
     update(_, { data: { login: userData } }) {
       context.login(userData);
-      history.push(ROUTES.HOME);
+      history.push(location.state.from ? location.state.from : ROUTES.HOME);
     },
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      err.graphQLErrors[0] &&
+        setErrors(err.graphQLErrors[0].extensions.exception.errors);
     },
     variables: userInput,
   });

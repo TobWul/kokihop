@@ -1,0 +1,11 @@
+.card {
+    background-color: var(--primary-100);
+    border-radius: var(--main-border-radius);
+    box-shadow: var(--depth-3);
+    margin-bottom: 0.5rem;
+    position: relative;
+
+    >* {
+        padding: 1rem;
+    }
+}

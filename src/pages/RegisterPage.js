@@ -4,9 +4,9 @@ import Input from "../components/DS/Input/Input";
 import Button from "../components/DS/Button/Button";
 import Layout from "../components/LandingPage/Layout/Layout";
 import { useHistory } from "react-router-dom";
-import ROUTES from "../Routes/Routes";
 import useAuthForm from "../hooks/useAuthForm";
 import { AuthContext } from "../context/authContext";
+import { ROUTES } from "../Routes/Router";
 
 const RegisterPage = () => {
   const history = useHistory();

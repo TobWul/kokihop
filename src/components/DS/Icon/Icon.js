@@ -14,26 +14,7 @@ function Icon({ icon, strokeWidth, size, color, returnAsString }) {
     height: size,
   };
 
-  return returnAsString ? (
-    `<svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      shapeRendering="geometricPrecision"
-      size=${size}
-      fill="none"
-      style=${iconStyle}
-    >
-      <g
-        stroke=${color}
-        fill="none"
-        strokeWidth=${strokeWidth}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        ${whichIcon(icon)}
-      </g>
-    </svg>`
-  ) : (
+  return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"

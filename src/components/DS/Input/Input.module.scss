@@ -6,10 +6,11 @@
   textarea,
   select {
     background-color: var(--primary-100);
-    border: 1.5px solid var(--secondary-800);
+    border: 2px solid var(--secondary-800);
     border-radius: 8px;
     padding: 0.5rem 1rem;
     font-size: 1rem;
     outline: 0;
+    box-shadow: var(--depth-1);
   }
 }

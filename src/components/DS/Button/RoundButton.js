@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 import Icon from "../Icon/Icon";
-import { cn } from "../../lib/helpers";
+import { cn } from "../../../lib/helpers";
 
 const RoundButton = ({ onClick, icon, fab }) => {
   if (!onClick || !icon) return null;

@@ -3,10 +3,9 @@ import React from "react";
 import Layout from "../components/LandingPage/Layout/Layout";
 import { Body1, Heading1 } from "../components/DS/Typography/Typography";
 import Button from "../components/DS/Button/Button";
-import ROUTES from "../Routes/Routes";
+import { ROUTES } from "../Routes/Router";
 
 const IndexPage = () => {
-  const { data } = useQuery(BOOKS);
   return (
     <Layout>
       <Heading1>Kokihop</Heading1>
@@ -15,25 +14,8 @@ const IndexPage = () => {
         and grandmothers had throughout my childhood.
       </Body1>
       <Button to={ROUTES.REGISTER}>Kjøp en kokebok</Button>
-      <div>{data && data.getBooks.map((book) => book.name)}</div>
     </Layout>
   );
 };
-
-const BOOKS = gql`
-  query {
-    getBooks {
-      name
-      id
-      createdAt
-      categories {
-        id
-        name
-        recipes
-      }
-      user
-    }
-  }
-`;
 
 export default IndexPage;

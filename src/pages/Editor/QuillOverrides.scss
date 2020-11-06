@@ -1,0 +1,58 @@
+@import "../../components//DS/Typography/Typography.module.scss";
+
+$toolbar-height: 52px;
+/* Tell Quill not to scroll */
+div.ql-container.ql-snow {
+  height: auto;
+  min-height: 100%;
+  border: 0;
+  margin-top: $toolbar-height;
+}
+div.ql-container div.ql-editor {
+  overflow-y: visible;
+  position: relative;
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  padding: 0;
+  &::before {
+    line-height: 1.6em;
+    left: 0;
+    right: auto;
+  }
+
+  h1 {
+    @extend .Heading1;
+  }
+  h2 {
+    @extend .Heading2;
+  }
+  h3 {
+    @extend .Heading3;
+  }
+  p {
+    @extend .Body1;
+  }
+
+  ul {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 2rem;
+
+    li {
+      list-style-type: disc;
+      padding-left: 0;
+      & + li {
+        margin-top: 0.5em;
+      }
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+div#toolbar {
+  border: 0;
+}
