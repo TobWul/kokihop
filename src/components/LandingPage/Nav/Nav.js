@@ -11,6 +11,11 @@ const Nav = () => {
     <nav className={styles.nav}>
       <Link to={ROUTES.HOME}>Kokihop</Link>
       <ul className={styles.links}>
+        {user && (
+          <li>
+            <Button to={ROUTES.LIBRARY}>Biblioteket</Button>
+          </li>
+        )}
         <li>
           {!user ? (
             <Link to={ROUTES.LOGIN}>Logg inn</Link>
@@ -18,11 +23,6 @@ const Nav = () => {
             <Button onClick={logout}>Logg ut</Button>
           )}
         </li>
-        {user && (
-          <li>
-            <Button to={ROUTES.LIBRARY}>Biblioteket</Button>
-          </li>
-        )}
       </ul>
     </nav>
   );

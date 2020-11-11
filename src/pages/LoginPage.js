@@ -7,12 +7,14 @@ import { Heading1 } from "../components/DS/Typography/Typography";
 import Layout from "../components/LandingPage/Layout/Layout";
 import { AuthContext } from "../context/authContext";
 import useAuthForm from "../hooks/useAuthForm";
+import { usePlausible } from "../hooks/usePlausible";
 import { ROUTES } from "../Routes/Router";
 
 const LoginPage = (props) => {
   const location = useLocation();
   const history = useHistory();
   const context = useContext(AuthContext);
+  const plausible = usePlausible();
 
   useEffect(() => {
     context.user !== null && history.push(ROUTES.HOME);
@@ -40,6 +42,7 @@ const LoginPage = (props) => {
 
   function loginCallback() {
     loginUser();
+    plausible("Login");
   }
 
   return (

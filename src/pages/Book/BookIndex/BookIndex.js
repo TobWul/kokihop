@@ -1,26 +1,46 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../../context/authContext";
-import Button from "../../../components/DS/Button/Button";
+import React, { useContext, useState } from "react";
 import { RecipeContext } from "../../../context/recipeContext";
 import styles from "./BookIndex.module.scss";
+import {
+  Heading1,
+  Heading3,
+} from "../../../components/DS/Typography/Typography";
+import Icon from "../../../components/DS/Icon/Icon";
+import Input from "../../../components/DS/Input/Input";
+import { gql, useMutation } from "@apollo/client";
 
 const BookIndex = () => {
-  const { book, setCurrentPage } = useContext(RecipeContext);
-  const { logout } = useContext(AuthContext);
-  console.log(book);
+  const { book, setCurrentPage, bookId, refetch } = useContext(RecipeContext);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   const navigateToRecipePage = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
+  const [addNewCategory] = useMutation(ADD_NEW_CATEGORY, {
+    update() {
+      refetch();
+    },
+    onError(err) {
+      console.error(err);
+    },
+    variables: { name: newCategoryName, bookId },
+  });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addNewCategory();
+  };
+
   return (
     <div>
-      Index
+      <Heading1>{book.name}</Heading1>
       <div>
         {book &&
           book.categories &&
-          book.categories.map(({ recipes }) => (
+          book.categories.map(({ name, recipes }) => (
             <div className={styles.card}>
+              <Heading3>{name}</Heading3>
               {recipes.map((id) => (
                 <li>{id}</li>
               ))}
@@ -38,9 +58,27 @@ const BookIndex = () => {
             </div>
           ))} */}
       </div>
-      <Button onClick={logout}>Logg ut</Button>
+      <form onSubmit={onSubmit}>
+        <button type="submit">
+          <Icon icon="addCircle" />
+          Legg til ny kategori
+        </button>
+        <Input
+          value={newCategoryName}
+          onChange={(e) => setNewCategoryName(e.target.value)}
+        />
+      </form>
     </div>
   );
 };
+
+const ADD_NEW_CATEGORY = gql`
+  mutation AddNewCategory($name: String!, $bookId: ID!) {
+    addCategory(name: $name, bookId: $bookId) {
+      name
+      recipes
+    }
+  }
+`;
 
 export default BookIndex;

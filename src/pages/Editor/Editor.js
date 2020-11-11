@@ -46,7 +46,7 @@ const Editor = () => {
   const [value, setValue] = useState("");
   const history = useHistory();
   const { recipeId } = useParams();
-  const { bookId, categoryId } = useContext(RecipeContext);
+  const { bookId, categoryId, refetch } = useContext(RecipeContext);
 
   if (!recipeId && !categoryId) history.push(ROUTES.LIBRARY);
 
@@ -65,7 +65,9 @@ const Editor = () => {
 
   const [save] = useMutation(SAVE, {
     update() {
-      navigate();
+      refetch().then(() => {
+        navigate();
+      });
     },
     onError(err) {
       console.error(err);

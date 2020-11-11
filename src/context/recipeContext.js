@@ -12,7 +12,12 @@ const initialState = {
 
 const RecipeContext = createContext();
 
+const getSelectedCategory = (book, categoryId) =>
+  book.categories &&
+  book.categories.find((category) => category.id === categoryId);
+
 function recipeReducer(state, action) {
+  let selectedCategory;
   switch (action.type) {
     case "SET_BOOK_ID":
       return {
@@ -25,19 +30,23 @@ function recipeReducer(state, action) {
         recipeId: action.value,
       };
     case "CHANGE_SELECTED_CATEGORY":
-      const selectedCategory = state.book.categories.find(
-        (category) => category.id === action.value
-      );
+      selectedCategory = getSelectedCategory(state.book, action.value);
       return {
         ...state,
         categoryId: action.value,
+        currentPage: 0,
         recipeIdList: selectedCategory ? selectedCategory.recipes : [],
+        recipeId: selectedCategory ? selectedCategory.recipes[0] : "",
       };
     case "SET_BOOK":
+      const categoryId = state.categoryId ? state.categoryId : "index";
+      selectedCategory = getSelectedCategory(action.value, categoryId);
       return {
         ...state,
         book: action.value,
         bookId: action.value.id,
+        categoryId,
+        recipeIdList: selectedCategory ? selectedCategory.recipes : [],
       };
     case "SET_PAGE_NUMBER":
       return {
@@ -51,33 +60,65 @@ function recipeReducer(state, action) {
 
 function RecipeProvider(props) {
   const [state, dispatch] = useReducer(recipeReducer, initialState);
+  const setBookId = (bookId) => {
+    dispatch({ type: "SET_BOOK_ID", value: bookId });
+  };
+
+  const setRecipeId = (recipeId) => {
+    dispatch({ type: "SET_RECIPE_ID", value: recipeId });
+  };
+
+  const setBook = (book) => {
+    dispatch({ type: "SET_BOOK", value: book });
+  };
+
+  const setCategoryId = (categoryId) => {
+    dispatch({ type: "CHANGE_SELECTED_CATEGORY", value: categoryId });
+  };
+
+  const setCurrentPage = (pageNum) => {
+    if (pageNum >= 0 && pageNum < state.recipeIdList.length) {
+      dispatch({ type: "SET_PAGE_NUMBER", value: pageNum });
+    }
+  };
+
+  const { loading, error, refetch } = useQuery(GET_BOOK, {
+    variables: { bookId: state.bookId },
+    notifyOnNetworkStatusChange: true,
+    onCompleted: (data) => {
+      setBook(data.getBook);
+    },
+  });
+
   return (
     <RecipeContext.Provider
       value={{
         ...state,
-        setBookId: (bookId) => {
-          dispatch({ type: "SET_BOOK_ID", value: bookId });
-        },
-
-        setRecipeId: (recipeId) => {
-          dispatch({ type: "SET_RECIPE_ID", value: recipeId });
-        },
-
-        setBook: (book) => {
-          dispatch({ type: "SET_BOOK", value: book });
-        },
-
-        setCategoryId: (categoryId) => {
-          dispatch({ type: "CHANGE_SELECTED_CATEGORY", value: categoryId });
-        },
-
-        setCurrentPage: (pageNum) => {
-          dispatch({ type: "SET_PAGE_NUMBER", value: pageNum });
-        },
+        setBookId,
+        setRecipeId,
+        setBook,
+        setCategoryId,
+        setCurrentPage,
+        refetch,
       }}
       {...props}
     />
   );
 }
+
+const GET_BOOK = gql`
+  query GetBook($bookId: ID!) {
+    getBook(bookId: $bookId) {
+      id
+      name
+      categories {
+        id
+        name
+        recipes
+      }
+      createdAt
+    }
+  }
+`;
 
 export { RecipeContext, RecipeProvider };

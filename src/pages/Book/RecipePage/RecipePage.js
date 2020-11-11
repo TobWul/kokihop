@@ -3,13 +3,16 @@ import PropTypes from "prop-types";
 import styles from "./RecipePage.module.scss";
 import { gql, useQuery } from "@apollo/client";
 import { RecipeContext } from "../../../context/recipeContext";
+import Button from "../../../components/DS/Button/Button";
 
 const RecipePage = () => {
-  const { recipeId } = useContext(RecipeContext);
-  const { data, error, loading } = useQuery(GET_RECIPE, {
+  const { recipeId, categoryId } = useContext(RecipeContext);
+  const { data, error, loading, refetch } = useQuery(GET_RECIPE, {
+    fetchPolicy: "cache-and-network",
     variables: { recipeId },
   });
   const recipe = data && data.getRecipe;
+
   return (
     <div className={styles.recipeWrapper}>
       {recipe && <div dangerouslySetInnerHTML={{ __html: recipe.content }} />}

@@ -8,9 +8,17 @@ import { cn } from "../../../lib/helpers";
 import RoundButton from "../../../components/DS/Button/RoundButton";
 import MenuCard from "../MenuCard/MenuCard";
 import { useHistory } from "react-router-dom";
+import { gql, useMutation } from "@apollo/client";
 
 const SettingsMenu = ({ savedCount, prevUpdate }) => {
-  const { recipeId, categoryId } = useContext(RecipeContext);
+  const {
+    recipeId,
+    categoryId,
+    bookId,
+    refetch,
+    setCurrentPage,
+    currentPage,
+  } = useContext(RecipeContext);
   const [copied, setCopied] = useState(false);
   const [isOpen, setOpen] = useState(false);
   const history = useHistory();
@@ -31,10 +39,17 @@ const SettingsMenu = ({ savedCount, prevUpdate }) => {
     setTimeout(() => setCopied(false), 1000);
   };
 
-  const deleteRecipe = () => {
-    //TODO: Add gql mutation
-    console.log("Deleting recipe...");
-  };
+  const [deleteRecipe] = useMutation(DELETE_RECIPE, {
+    update() {
+      refetch();
+      setCurrentPage(currentPage - 1);
+      console.log("Deleting recipe");
+    },
+    onError(err) {
+      console.error(err);
+    },
+    variables: { recipeId, categoryId, bookId },
+  });
 
   if (!(prevUpdate instanceof Date)) {
     prevUpdate = new Date(prevUpdate);
@@ -75,5 +90,11 @@ const SettingsMenu = ({ savedCount, prevUpdate }) => {
     </>
   );
 };
+
+const DELETE_RECIPE = gql`
+  mutation DeleteRecipe($recipeId: ID!, $categoryId: ID!, $bookId: ID!) {
+    deleteRecipe(recipeId: $recipeId, categoryId: $categoryId, bookId: $bookId)
+  }
+`;
 
 export default SettingsMenu;

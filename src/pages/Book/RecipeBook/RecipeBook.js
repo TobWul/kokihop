@@ -15,19 +15,11 @@ import { ROUTES } from "../../../Routes/Router";
 const RecipeBook = () => {
   let { bookId: urlBookId } = useParams();
   const history = useHistory();
-  const { categoryId, setRecipeId, setBook, setCategoryId } = useContext(
-    RecipeContext
-  );
-  const { loading, error } = useQuery(GET_BOOK, {
-    variables: { bookId: urlBookId },
-    onCompleted: (data) => {
-      setBook(data.getBook);
-      const categories = data.getBook.categories;
-      const isCategory = categories.length > 0;
-      setCategoryId(isCategory ? categories[0].id : "index");
-      isCategory && setRecipeId(categories[0].recipes[0]);
-    },
-  });
+  const { categoryId, setBookId } = useContext(RecipeContext);
+
+  useEffect(() => {
+    setBookId(urlBookId);
+  }, [urlBookId]);
 
   const newRecipe = () => {
     history.push(ROUTES.NEW_RECIPE);
@@ -48,18 +40,4 @@ const RecipeBook = () => {
   );
 };
 
-const GET_BOOK = gql`
-  query GetBook($bookId: ID!) {
-    getBook(bookId: $bookId) {
-      id
-      name
-      categories {
-        id
-        name
-        recipes
-      }
-      createdAt
-    }
-  }
-`;
 export default RecipeBook;

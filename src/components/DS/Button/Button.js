@@ -3,12 +3,11 @@ import PropTypes from "prop-types";
 import styles from "./Button.module.scss";
 import Icon from "../Icon/Icon";
 import { Link } from "react-router-dom";
+import { cn } from "../../../lib/helpers";
 
 const Button = ({ onClick, href, to, children, icon, secondary, type }) => {
   if (!children) return null;
-  const buttonClassName = [styles.button, secondary && styles.secondary].join(
-    " "
-  );
+  const buttonClassName = cn(styles.button, secondary && styles.secondary);
 
   const ButtonContent = () => (
     <>

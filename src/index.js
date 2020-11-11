@@ -10,7 +10,17 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 const client = new ApolloClient({
   uri: API_URL,
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Category: {
+        fields: {
+          recipes: {
+            merge: false,
+          },
+        },
+      },
+    },
+  }),
   headers: {
     Authorization: "Bearer " + localStorage.getItem("jwtToken") || "",
   },
