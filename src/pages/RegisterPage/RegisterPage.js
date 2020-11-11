@@ -1,0 +1,120 @@
+import { gql, useMutation } from "@apollo/client";
+import React, { useContext, useState } from "react";
+import Input from "../../components/DS/Input/Input";
+import Button from "../../components/DS/Button/Button";
+import Layout from "../../components/LandingPage/Layout/Layout";
+import { useHistory, useLocation } from "react-router-dom";
+import useAuthForm from "../../hooks/useAuthForm";
+import { AuthContext } from "../../context/authContext";
+import { ROUTES } from "../../Routes/Router";
+import {
+  Body1,
+  Body2,
+  Heading1,
+  Subtitle1,
+} from "../../components/DS/Typography/Typography";
+import PaymentMethods from "../../components/LandingPage/PaymentMethods/PaymentMethods";
+import styles from "./RegisterPage.module.scss";
+import DummyBook from "../../components/LandingPage/DummyBook/DummyBook";
+
+const RegisterPage = () => {
+  const history = useHistory();
+  const location = useLocation();
+  const { login } = useContext(AuthContext);
+
+  const { userInput, errors, onChange, onSubmit, setErrors } = useAuthForm(
+    registerCallback,
+    {
+      name: "",
+      bookName: location.state.bookName || "",
+      email: "",
+      password: "",
+    }
+  );
+
+  const [createNewUser] = useMutation(CREATE_USER, {
+    update(_, { data: { register: userData } }) {
+      login(userData);
+      history.push(ROUTES.HOME);
+    },
+    onError(err) {
+      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+    },
+    variables: userInput,
+  });
+
+  function registerCallback() {
+    createNewUser();
+  }
+
+  return (
+    <Layout>
+      <div className={styles.container}>
+        <div className={styles.inputFields}>
+          <Heading1>Ny bruker</Heading1>
+          <Body1>
+            Begynn med én bok, når den er skrevet ut, kan du kjøpe flere bøker å
+            legge i samlingen din.
+          </Body1>
+          <br />
+          <form onSubmit={onSubmit}>
+            <Input
+              id="register-book-name"
+              placeholder="Boknavn"
+              name="bookName"
+              errorMessage={errors.bookName}
+              value={userInput.bookName}
+              onChange={onChange}
+            />
+            <Input
+              id="register-name"
+              placeholder="Navn"
+              name="name"
+              errorMessage={errors.name}
+              value={userInput.name}
+              onChange={onChange}
+            />
+            <Input
+              id="register-email"
+              placeholder="E-post"
+              name="email"
+              errorMessage={errors.email}
+              value={userInput.email}
+              onChange={onChange}
+            />
+            <Input
+              id="register-password"
+              placeholder="Nytt passord"
+              name="password"
+              errorMessage={errors.password}
+              value={userInput.password}
+              type="password"
+              autoComplete="new-password"
+              onChange={onChange}
+            />
+            <Body1>Velg betalingsmåte</Body1>
+            <PaymentMethods />
+            <br />
+            <Subtitle1>kr 49</Subtitle1>
+            <br />
+            <Button type="submit">Gå til betaling</Button>
+          </form>
+        </div>
+        <DummyBook bookName={userInput.bookName} />
+      </div>
+    </Layout>
+  );
+};
+
+const CREATE_USER = gql`
+  mutation CreateNewUser($name: String!, $email: String!, $password: String!) {
+    register(
+      registerInput: { name: $name, email: $email, password: $password }
+    ) {
+      name
+      token
+    }
+  }
+`;
+
+export default RegisterPage;

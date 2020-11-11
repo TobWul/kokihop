@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.inputFields {
+  width: 400px;
+  max-width: 100%;
+}

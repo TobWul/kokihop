@@ -1,13 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import RecipeBook from "../pages/Book/RecipeBook/RecipeBook";
-import IndexPage from "../pages/IndexPage";
+import IndexPage from "../pages/IndexPage/IndexPage";
 import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
+import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Editor from "../pages/Editor/Editor";
 import Library from "../pages/Library/Library";
+import { Helmet } from "react-helmet";
 
 export const ROUTES = {
   HOME: "/",
@@ -25,6 +26,14 @@ const Router = () => {
   const { user } = useContext(AuthContext);
   return (
     <BrowserRouter>
+      <Helmet>
+        <script
+          async
+          defer
+          data-domain="kokihop.com"
+          src="https://plausible.io/js/plausible.js"
+        />
+      </Helmet>
       <Switch>
         <Route exact path={ROUTES.HOME}>
           <IndexPage />

@@ -1,0 +1,42 @@
+.container {
+  border: 2px solid var(--secondary-800);
+  border-radius: var(--main-border-radius);
+  background-color: var(--primary-100);
+  box-shadow: var(--depth-1);
+  margin-top: 0.5rem;
+}
+
+.paymentItem {
+  padding: 0.5rem 1rem;
+  display: grid;
+  grid-template-columns: 24px 1fr 70px;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  &:first-child {
+    border-bottom: 1px solid var(--secondary-600);
+  }
+  * {
+    margin: 0;
+  }
+}
+
+.radio {
+  $size: 24px;
+  position: relative;
+  width: $size;
+  height: $size;
+  border: 2px solid var(--secondary-800);
+  border-radius: $size / 2;
+
+  &.selected::before {
+    content: "";
+    position: absolute;
+    background-color: var(--secondary-800);
+    width: $size - 12px;
+    height: $size - 12px;
+    left: 4px;
+    top: 4px;
+    border-radius: $size;
+  }
+}

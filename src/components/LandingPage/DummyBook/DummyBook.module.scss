@@ -1,0 +1,36 @@
+.bookCover {
+  position: relative;
+  background-color: #4d7a57;
+  border-radius: 4px 30px 30px 4px;
+  width: 600px;
+  margin-left: 10%;
+}
+
+.label {
+  padding: 2rem;
+  position: absolute;
+  left: 10%;
+  top: 10%;
+  width: 80%;
+  background-color: var(--primary-100);
+  p {
+    margin: 0;
+  }
+  &::after,
+  &::before {
+    content: "";
+    position: absolute;
+    background-color: transparentize($color: #f5eee6, $amount: 0.5);
+    transform: rotate(-41deg);
+    width: 54px;
+    height: 20px;
+  }
+  &::after {
+    top: 0;
+    left: -20px;
+  }
+  &::before {
+    bottom: 0;
+    right: -20px;
+  }
+}
