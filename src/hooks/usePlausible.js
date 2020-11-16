@@ -1,1 +1,1 @@
-export const usePlausible = () => (event) => window.plausible(event);
+export const usePlausible = () => (event) => window && window.plausible(event);

@@ -9,6 +9,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useHistory, useParams } from "react-router-dom";
 import { RecipeContext } from "../../context/recipeContext";
 import { ROUTES } from "../../Routes/Router";
+import sanitize from "sanitize-html";
 
 const Toolbar = () => (
   <div id="toolbar">
@@ -48,7 +49,7 @@ const Editor = () => {
   const { recipeId } = useParams();
   const { bookId, categoryId, refetch } = useContext(RecipeContext);
 
-  if (!recipeId && !categoryId) history.push(ROUTES.LIBRARY);
+  if (!recipeId && !categoryId) history.goBack();
 
   const { error, loading } = useQuery(GET_RECIPE, {
     variables: { recipeId: recipeId },
@@ -114,6 +115,7 @@ const Editor = () => {
           modules={{ toolbar: "#toolbar" }}
         />
       </div>
+      {sanitize(value)}
     </div>
   );
 };

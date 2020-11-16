@@ -22,10 +22,10 @@ const PaymentMethods = () => {
       >
         <Radio selected={selectedPaymentMethods === 0} />
         <div>
-          <Subtitle2>Vipps</Subtitle2>
-          <Body2>Betal fra mobil</Body2>
+          <Subtitle2>Kort</Subtitle2>
+          <Body2>Betal med kort</Body2>
         </div>
-        <img src={vippsLogo} alt="Vippslogo" />
+        <img src={cardLogos} alt="Visa + Mastercard" />
       </div>
       <div
         className={styles.paymentItem}
@@ -33,10 +33,10 @@ const PaymentMethods = () => {
       >
         <Radio selected={selectedPaymentMethods === 1} />
         <div>
-          <Subtitle2>Kort</Subtitle2>
-          <Body2>Betal med kort</Body2>
+          <Subtitle2>Vipps</Subtitle2>
+          <Body2>Betal fra mobil</Body2>
         </div>
-        <img src={cardLogos} alt="Visa + Mastercard" />
+        <img src={vippsLogo} alt="Vippslogo" />
       </div>
     </div>
   );

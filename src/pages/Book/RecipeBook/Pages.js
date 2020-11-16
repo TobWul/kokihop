@@ -1,19 +1,33 @@
 import React, { useContext } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize, bindKeyboard } from "react-swipeable-views-utils";
-import RecipePage from "../RecipePage/RecipePage";
+// import RecipePage from "../RecipePage/RecipePage";
 import Paginator from "../Paginator/Paginator";
 import PageEmptyState from "../PageEmptyState/PageEmptyState";
 import SettingsMenu from "../SettingsMenu/SettingsMenu";
 import { RecipeContext } from "../../../context/recipeContext";
+import { gql, useQuery } from "@apollo/client";
+import styles from "./RecipePage.module.scss";
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
 const Pages = () => {
-  const { recipeIdList, currentPage, setCurrentPage, setRecipeId } = useContext(
-    RecipeContext
-  );
+  const {
+    recipeId,
+    recipeIdList,
+    currentPage,
+    setCurrentPage,
+    setRecipeId,
+  } = useContext(RecipeContext);
+
+  const { data, error, loading } = useQuery(GET_RECIPE, {
+    fetchPolicy: "cache-and-network",
+    variables: { recipeId },
+  });
+
+  const recipe = data && data.getRecipe;
   const bookLength = recipeIdList.length;
+
   const handleChangeIndex = (index) => {
     setCurrentPage(index);
     setRecipeId(recipeIdList[index]);
@@ -21,7 +35,11 @@ const Pages = () => {
 
   const slideRenderer = (params) => {
     const { index, key } = params;
-    return <RecipePage key={key} recipeId={recipeIdList[index]} />;
+    return (
+      <div className={styles.recipeWrapper} key={key}>
+        {recipe && <div dangerouslySetInnerHTML={{ __html: recipe.content }} />}
+      </div>
+    );
   };
 
   const nextPage = () =>
@@ -32,7 +50,10 @@ const Pages = () => {
     <div>
       {bookLength > 0 ? (
         <>
-          <SettingsMenu savedCount={null} prevUpdate={null} />
+          <SettingsMenu
+            savedCount={null}
+            prevUpdate={recipe && recipe.updatedAt}
+          />
           <VirtualizeSwipeableViews
             index={currentPage}
             onChangeIndex={handleChangeIndex}
@@ -52,5 +73,16 @@ const Pages = () => {
     </div>
   );
 };
+
+const GET_RECIPE = gql`
+  query GetRecipe($recipeId: ID!) {
+    getRecipe(recipeId: $recipeId) {
+      id
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;
 
 export default Pages;

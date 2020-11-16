@@ -31,8 +31,8 @@ const Router = () => {
           async
           defer
           data-domain="kokihop.com"
-          src="https://plausible.io/js/plausible.js"
-        />
+          src="https://stats.kokihop.com/js/index.js"
+        ></script>
       </Helmet>
       <Switch>
         <Route exact path={ROUTES.HOME}>

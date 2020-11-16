@@ -9,7 +9,9 @@ const Nav = () => {
   const { user, logout } = useContext(AuthContext);
   return (
     <nav className={styles.nav}>
-      <Link to={ROUTES.HOME}>Kokihop</Link>
+      <Link className={styles.logo} to={ROUTES.HOME}>
+        Kokihop
+      </Link>
       <ul className={styles.links}>
         {user && (
           <li>

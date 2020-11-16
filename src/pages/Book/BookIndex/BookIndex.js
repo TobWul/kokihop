@@ -38,11 +38,11 @@ const BookIndex = () => {
       <div>
         {book &&
           book.categories &&
-          book.categories.map(({ name, recipes }) => (
-            <div className={styles.card}>
+          book.categories.map(({ name, recipes, _key }) => (
+            <div className={styles.card} key={name}>
               <Heading3>{name}</Heading3>
               {recipes.map((id) => (
-                <li>{id}</li>
+                <li key={id}>{id}</li>
               ))}
             </div>
           ))}

@@ -26,6 +26,7 @@ const RegisterPage = () => {
   const {
     userInput,
     errors,
+    paymentMethod,
     onChange,
     onSubmit,
     setErrors,
@@ -41,6 +42,7 @@ const RegisterPage = () => {
   const [createNewUser] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
       login(userData);
+      plausible(paymentMethod === 0 ? "signup-card" : "signup-vipps");
       createNewBook();
     },
     onError(err) {
@@ -66,8 +68,11 @@ const RegisterPage = () => {
   });
 
   function registerCallback() {
-    createNewUser();
-    plausible("Signup");
+    if (userInput.bookName.trim() === "") {
+      setErrors({ ...errors, bookName: "Boken må ha et navn" });
+    } else {
+      createNewUser();
+    }
   }
 
   return (

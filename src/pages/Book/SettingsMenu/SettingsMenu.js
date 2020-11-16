@@ -41,9 +41,10 @@ const SettingsMenu = ({ savedCount, prevUpdate }) => {
 
   const [deleteRecipe] = useMutation(DELETE_RECIPE, {
     update() {
-      refetch();
-      setCurrentPage(currentPage - 1);
-      console.log("Deleting recipe");
+      refetch().then(() => {
+        setCurrentPage(currentPage - 1);
+        console.log("Deleting recipe");
+      });
     },
     onError(err) {
       console.error(err);
