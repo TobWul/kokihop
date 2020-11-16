@@ -33,7 +33,7 @@ const RegisterPage = () => {
     setPaymentMethod,
   } = useAuthForm(registerCallback, {
     name: "",
-    bookName: location.state.bookName || "",
+    bookName: (location && location.state.bookName) || "",
     email: "",
     password: "",
     paymentMethod: 0,
@@ -42,7 +42,7 @@ const RegisterPage = () => {
   const [createNewUser] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
       login(userData);
-      plausible(paymentMethod === 0 ? "signup-card" : "signup-vipps");
+      logToAnalytics();
       createNewBook();
     },
     onError(err) {
@@ -66,6 +66,10 @@ const RegisterPage = () => {
     },
     variables: { name: userInput.bookName },
   });
+
+  function logToAnalytics() {
+    plausible(paymentMethod === 0 ? "signup-card" : "signup-vipps");
+  }
 
   function registerCallback() {
     if (userInput.bookName.trim() === "") {
@@ -91,7 +95,7 @@ const RegisterPage = () => {
               id="register-book-name"
               placeholder="Boknavn"
               name="bookName"
-              errorMessage={errors.bookName}
+              errorMessage={errors && errors.bookName}
               value={userInput.bookName}
               onChange={onChange}
             />
