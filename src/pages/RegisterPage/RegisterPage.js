@@ -109,7 +109,7 @@ const RegisterPage = () => {
                   id="register-name"
                   placeholder="Navn"
                   name="name"
-                  errorMessage={errors.name}
+                  errorMessage={errors && errors.name}
                   value={userInput.name}
                   onChange={onChange}
                 />
@@ -117,7 +117,7 @@ const RegisterPage = () => {
                   id="register-email"
                   placeholder="E-post"
                   name="email"
-                  errorMessage={errors.email}
+                  errorMessage={errors && errors.email}
                   value={userInput.email}
                   onChange={onChange}
                 />
@@ -125,7 +125,7 @@ const RegisterPage = () => {
                   id="register-password"
                   placeholder="Nytt passord"
                   name="password"
-                  errorMessage={errors.password}
+                  errorMessage={errors && errors.password}
                   value={userInput.password}
                   type="password"
                   autoComplete="new-password"
