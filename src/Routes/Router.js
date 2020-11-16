@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute";
 import Editor from "../pages/Editor/Editor";
 import Library from "../pages/Library/Library";
 import { Helmet } from "react-helmet";
+import Completed from "../pages/RegisterPage/Completed";
 
 export const ROUTES = {
   HOME: "/",
@@ -20,6 +21,7 @@ export const ROUTES = {
   USER_BOOK: "/bok/:bookId",
   PUBLIC_RECIPE: "/oppskrift/:recipeId",
   LIBRARY: "/biblioteket",
+  FAKE_DOOR: "/vi-tok-ikke-betalt",
 };
 
 const Router = () => {
@@ -46,6 +48,9 @@ const Router = () => {
         </Route>
         <Route exact path={ROUTES.FORGOT_PASSWORD}>
           {"<ForgotPassword />"}
+        </Route>
+        <Route exact path={ROUTES.FAKE_DOOR}>
+          <Completed />
         </Route>
         <PrivateRoute path={ROUTES.USER_BOOK} allowedCondition={user}>
           <RecipeBook />

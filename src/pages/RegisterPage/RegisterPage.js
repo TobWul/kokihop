@@ -34,7 +34,7 @@ const RegisterPage = () => {
     setPaymentMethod,
   } = useAuthForm(registerCallback, {
     name: "",
-    bookName: (location && location.state.bookName) || "",
+    bookName: (location.state && location.state.bookName) || "",
     email: "",
     password: "",
     paymentMethod: 0,
@@ -60,7 +60,7 @@ const RegisterPage = () => {
         },
       }
     ) {
-      history.push("/bok/" + id);
+      history.push(ROUTES.FAKE_DOOR);
     },
     onError(err) {
       setErrors(failSafeGraphQlError(err));
