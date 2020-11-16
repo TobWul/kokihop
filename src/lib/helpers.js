@@ -42,3 +42,11 @@ export function getMonthString(month = new Date().getMonth()) {
   }
   return month;
 }
+
+export const failSafeGraphQlError = (err) =>
+  err &&
+  err.graphQLErrors &&
+  err.graphQLErrors[0] &&
+  err.graphQLErrors[0].extensions &&
+  err.graphQLErrors[0].extensions.exception &&
+  err.graphQLErrors[0].extensions.exception.errors;

@@ -17,6 +17,7 @@ import PaymentMethods from "../../components/LandingPage/PaymentMethods/PaymentM
 import styles from "./RegisterPage.module.scss";
 import DummyBook from "../../components/LandingPage/DummyBook/DummyBook";
 import { usePlausible } from "../../hooks/usePlausible";
+import { failSafeGraphQlError } from "../../lib/helpers";
 
 const RegisterPage = () => {
   const history = useHistory();
@@ -46,7 +47,7 @@ const RegisterPage = () => {
       createNewBook();
     },
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      setErrors(failSafeGraphQlError(err));
     },
     variables: userInput,
   });
@@ -62,7 +63,7 @@ const RegisterPage = () => {
       history.push("/bok/" + id);
     },
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      setErrors(failSafeGraphQlError(err));
     },
     variables: { name: userInput.bookName },
   });
@@ -75,7 +76,7 @@ const RegisterPage = () => {
     if (userInput.bookName.trim() === "") {
       setErrors({ ...errors, bookName: "Boken må ha et navn" });
     } else {
-      createNewUser();
+      user ? createNewBook() : createNewUser();
     }
   }
 
