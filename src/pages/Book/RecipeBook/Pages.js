@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { virtualize, bindKeyboard } from "react-swipeable-views-utils";
 // import RecipePage from "../RecipePage/RecipePage";
@@ -20,10 +20,14 @@ const Pages = () => {
     setRecipeId,
   } = useContext(RecipeContext);
 
-  const { data, error, loading } = useQuery(GET_RECIPE, {
+  const { data, error, loading, refetch } = useQuery(GET_RECIPE, {
     fetchPolicy: "cache-and-network",
     variables: { recipeId },
   });
+
+  useEffect(() => {
+    setRecipeId(recipeIdList[currentPage]);
+  }, [recipeIdList]);
 
   const recipe = data && data.getRecipe;
   const bookLength = recipeIdList.length;

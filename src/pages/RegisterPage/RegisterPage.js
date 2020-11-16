@@ -43,12 +43,10 @@ const RegisterPage = () => {
   const [createNewUser] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
       console.log("Updated createNewUser");
-      login(userData);
-    },
-    onCompleted: () => {
-      console.log("Completed createNewUser");
+      console.log(userData);
       logToAnalytics();
-      createNewBook();
+      login(userData);
+      history.push(ROUTES.FAKE_DOOR, { bookId: userData.bookId });
     },
     onError(err) {
       setErrors(failSafeGraphQlError(err));
@@ -64,7 +62,6 @@ const RegisterPage = () => {
         },
       }
     ) {
-      console.log("Update createNewBook");
       history.push(ROUTES.FAKE_DOOR, { bookId: id });
     },
     onCompleted: () => {},
@@ -151,12 +148,26 @@ const RegisterPage = () => {
 };
 
 const CREATE_USER = gql`
-  mutation CreateNewUser($name: String!, $email: String!, $password: String!) {
+  mutation CreateNewUser(
+    $name: String!
+    $email: String!
+    $password: String!
+    $bookName: String!
+  ) {
     register(
-      registerInput: { name: $name, email: $email, password: $password }
+      registerInput: {
+        name: $name
+        email: $email
+        password: $password
+        bookName: $bookName
+      }
     ) {
+      id
       name
+      email
       token
+      createdAt
+      bookId
     }
   }
 `;

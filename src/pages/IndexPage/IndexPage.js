@@ -13,7 +13,8 @@ const IndexPage = () => {
   const history = useHistory();
   const [bookName, setBookname] = useState("");
 
-  const toRegisterPage = () => {
+  const toRegisterPage = (e) => {
+    e.preventDefault();
     history.push({ pathname: ROUTES.REGISTER, state: { bookName } });
   };
   return (
