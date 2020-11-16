@@ -7,10 +7,15 @@ import { ROUTES } from "../../Routes/Router";
 import Input from "../../components/DS/Input/Input";
 import landingPageIllustration from "../../assets/landingPage.png";
 import styles from "./IndexPage.module.scss";
+import { useHistory } from "react-router-dom";
 
 const IndexPage = () => {
+  const history = useHistory();
   const [bookName, setBookname] = useState("");
 
+  const toRegisterPage = () => {
+    history.push({ pathname: ROUTES.REGISTER, state: { bookName } });
+  };
   return (
     <Layout>
       <div className={styles.header}>
@@ -21,14 +26,14 @@ const IndexPage = () => {
             mom and grandmothers had throughout my childhood.
           </Body1>
           <img src={landingPageIllustration} alt="Kokihop illustrasjon" />
-          <Input
-            placeholder="Navn på boken"
-            value={bookName}
-            onChange={(e) => setBookname(e.target.value)}
-          />
-          <Button to={{ pathname: ROUTES.REGISTER, state: { bookName } }}>
-            Opprett en kokebok
-          </Button>
+          <form onSubmit={toRegisterPage}>
+            <Input
+              placeholder="Navn på boken"
+              value={bookName}
+              onChange={(e) => setBookname(e.target.value)}
+            />
+            <Button type="submit">Opprett en kokebok</Button>
+          </form>
         </div>
       </div>
     </Layout>

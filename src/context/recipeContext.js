@@ -1,5 +1,6 @@
-import React, { useReducer, createContext, useEffect } from "react";
+import React, { useReducer, createContext, useEffect, useContext } from "react";
 import { gql, useQuery } from "@apollo/client";
+import { AuthContext } from "./authContext";
 
 const initialState = {
   recipeId: "",
@@ -60,6 +61,7 @@ function recipeReducer(state, action) {
 
 function RecipeProvider(props) {
   const [state, dispatch] = useReducer(recipeReducer, initialState);
+  const { user } = useContext(AuthContext);
   const setBookId = (bookId) => {
     dispatch({ type: "SET_BOOK_ID", value: bookId });
   };
@@ -89,6 +91,10 @@ function RecipeProvider(props) {
       setBook(data.getBook);
     },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [user]);
 
   return (
     <RecipeContext.Provider

@@ -42,7 +42,11 @@ const RegisterPage = () => {
 
   const [createNewUser] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
+      console.log("Updated createNewUser");
       login(userData);
+    },
+    onCompleted: () => {
+      console.log("Completed createNewUser");
       logToAnalytics();
       createNewBook();
     },
@@ -60,8 +64,10 @@ const RegisterPage = () => {
         },
       }
     ) {
-      history.push(ROUTES.FAKE_DOOR);
+      console.log("Update createNewBook");
+      history.push(ROUTES.FAKE_DOOR, { bookId: id });
     },
+    onCompleted: () => {},
     onError(err) {
       setErrors(failSafeGraphQlError(err));
     },

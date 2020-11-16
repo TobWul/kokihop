@@ -1,5 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import React from "react";
+import { useLocation } from "react-router-dom";
 import Button from "../../components/DS/Button/Button";
 import { Body1, Heading1 } from "../../components/DS/Typography/Typography";
 import Layout from "../../components/LandingPage/Layout/Layout";
@@ -7,8 +8,8 @@ import { ROUTES } from "../../Routes/Router";
 import styles from "./Completed.module.scss";
 
 const Completed = () => {
-  const { data } = useQuery(GET_BOOKS);
-  console.log(data);
+  const { state } = useLocation();
+  const bookId = state && state.bookId;
 
   return (
     <Layout>
@@ -20,8 +21,8 @@ const Completed = () => {
           komme i gang og lagre familieklenodiet på nett, så det aldri blir
           borte.
         </Body1>
-        {data && data.getBooks && data.getBooks[0] ? (
-          <Button to={`/bok/${data.getBooks[0].id}`}>Gå til boka di</Button>
+        {bookId ? (
+          <Button to={`/bok/${bookId}`}>Gå til boka di</Button>
         ) : (
           <>
             <Body1>
@@ -34,15 +35,5 @@ const Completed = () => {
     </Layout>
   );
 };
-
-const GET_BOOKS = gql`
-  query {
-    getBooks {
-      name
-      id
-      createdAt
-    }
-  }
-`;
 
 export default Completed;
