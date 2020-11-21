@@ -1,6 +1,10 @@
-.card {
-  padding: 1rem;
-  background-color: var(--primary-100);
-  box-shadow: var(--depth-1);
-  border-radius: var(--main-border-radius);
+.bookIndexWrapper {
+  padding: 5% 10%;
+  h1 {
+    margin-bottom: 1rem;
+  }
+  .categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
 }

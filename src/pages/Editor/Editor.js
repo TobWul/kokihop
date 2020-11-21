@@ -8,8 +8,6 @@ import Icon from "../../components/DS/Icon/Icon";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useHistory, useParams } from "react-router-dom";
 import { RecipeContext } from "../../context/recipeContext";
-import { ROUTES } from "../../Routes/Router";
-import sanitize from "sanitize-html";
 
 const Toolbar = () => (
   <div id="toolbar">
@@ -45,6 +43,7 @@ const Toolbar = () => (
 
 const Editor = () => {
   const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const history = useHistory();
   const { recipeId } = useParams();
   const { bookId, categoryId, refetch } = useContext(RecipeContext);
@@ -73,7 +72,7 @@ const Editor = () => {
     onError(err) {
       console.error(err);
     },
-    variables: { content: value, bookId, categoryId },
+    variables: { title, content: value, bookId, categoryId },
   });
   const [update] = useMutation(UPDATE, {
     update() {
@@ -82,7 +81,7 @@ const Editor = () => {
     onError(err) {
       console.error(err);
     },
-    variables: { content: value, recipeId },
+    variables: { title, content: value, recipeId },
   });
 
   // Icon reset
@@ -107,15 +106,21 @@ const Editor = () => {
         </div>
       </div>
       <div className={styles.editor}>
+        <input
+          type="text"
+          name="title"
+          placeholder="Tittel..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <ReactQuill
           theme="snow"
           value={loading && recipeId ? "Loading..." : value}
           onChange={setValue}
-          placeholder="Ny oppskrift..."
+          placeholder="• Ingredienser..."
           modules={{ toolbar: "#toolbar" }}
         />
       </div>
-      {sanitize(value)}
     </div>
   );
 };
@@ -131,9 +136,15 @@ const GET_RECIPE = gql`
 `;
 
 const SAVE = gql`
-  mutation NewRecipe($content: String!, $bookId: ID!, $categoryId: ID!) {
+  mutation NewRecipe(
+    $title: String!
+    $content: String!
+    $bookId: ID!
+    $categoryId: ID!
+  ) {
     newRecipe(
       recipeInput: {
+        title: $title
         content: $content
         bookId: $bookId
         categoryId: $categoryId
@@ -145,9 +156,13 @@ const SAVE = gql`
 `;
 
 const UPDATE = gql`
-  mutation UpdateRecipe($content: String!, $recipeId: ID!) {
+  mutation UpdateRecipe($title: String!, $content: String!, $recipeId: ID!) {
     updateRecipe(
-      updateRecipeInput: { content: $content, recipeId: $recipeId }
+      updateRecipeInput: {
+        title: $title
+        content: $content
+        recipeId: $recipeId
+      }
     ) {
       id
     }

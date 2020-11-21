@@ -8,6 +8,7 @@ import SettingsMenu from "../SettingsMenu/SettingsMenu";
 import { RecipeContext } from "../../../context/recipeContext";
 import { gql, useQuery } from "@apollo/client";
 import styles from "./RecipePage.module.scss";
+import { Heading1 } from "../../../components/DS/Typography/Typography";
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
@@ -41,6 +42,7 @@ const Pages = () => {
     const { index, key } = params;
     return (
       <div className={styles.recipeWrapper} key={key}>
+        <Heading1>{recipe && recipe.title}</Heading1>
         {recipe && <div dangerouslySetInnerHTML={{ __html: recipe.content }} />}
       </div>
     );
@@ -82,6 +84,7 @@ const GET_RECIPE = gql`
   query GetRecipe($recipeId: ID!) {
     getRecipe(recipeId: $recipeId) {
       id
+      title
       content
       createdAt
       updatedAt

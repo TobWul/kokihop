@@ -32,6 +32,7 @@ const SettingsMenu = ({ savedCount, prevUpdate }) => {
   const copy = () => {
     copyRef.current.select();
     copyRef.current.setSelectionRange(0, 99999); /*For mobile devices*/
+    console.log(copyRef.current.value);
 
     /* Copy the text inside the text field */
     document.execCommand("copy");
@@ -81,7 +82,7 @@ const SettingsMenu = ({ savedCount, prevUpdate }) => {
             id="copy"
             type="text"
             ref={copyRef}
-            value={`http://localhost:3000/oppskrift/${recipeId}`}
+            value={`${process.env.REACT_APP_URL}/${recipeId}`}
             readOnly
             className={styles.copyInput}
           />
