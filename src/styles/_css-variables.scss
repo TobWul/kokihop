@@ -23,9 +23,12 @@
   --footer-height: 5rem;
   --max-page-width: 1100px;
   --recipe-category-width: 80px;
+  --recipe-category-height: 56px;
   --recipe-page-width: calc(100vw - 80px);
+  --recipe-page-height: 100vh;
   @media screen and (max-width: 760px) {
     --recipe-page-width: 100vw;
+    --recipe-page-height: calc(100vh - var(--recipe-category-height));
   }
 
   --depth-1: 0px 0.181152px 0.317016px rgba(22, 33, 53, 0.0243888),

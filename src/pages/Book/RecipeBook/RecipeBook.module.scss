@@ -6,9 +6,9 @@
     width: var(--recipe-page-width);
     background-color: var(--primary-200);
     box-shadow: var(--depth-2);
-    min-height: 100vh;
+    min-height: var(--recipe-page-height);
   }
   @media screen and (max-width: 760px) {
-    margin-top: 56px;
+    margin-top: var(--recipe-category-height);
   }
 }

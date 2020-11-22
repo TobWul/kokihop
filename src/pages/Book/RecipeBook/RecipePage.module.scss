@@ -1,10 +1,13 @@
 .recipeWrapper {
-  max-width: 800px;
+  width: 800px;
+  max-width: 90%;
   margin: 0 auto;
   padding: 5% 5% 20%;
+  min-height: var(--recipe-page-height);
 
   h1 {
     font-size: 3rem;
+    max-width: calc(100% - 48px);
   }
 
   ul li {

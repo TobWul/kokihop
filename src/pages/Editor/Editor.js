@@ -54,6 +54,7 @@ const Editor = () => {
     variables: { recipeId: recipeId },
     onCompleted: (data) => {
       setValue(data.getRecipe.content);
+      setTitle(data.getRecipe.title);
     },
     onError: (err) => console.log(err),
     skip: !recipeId,
@@ -102,7 +103,11 @@ const Editor = () => {
       <div className={styles.toolbar}>
         <Toolbar />
         <div>
-          <Button loading={saveLoading || updateLoading} onClick={submit}>
+          <Button
+            loading={saveLoading || updateLoading}
+            onClick={submit}
+            disabled={value.trim("") === "" || title.trim("") === ""}
+          >
             Lagre
           </Button>
         </div>
@@ -132,6 +137,7 @@ const GET_RECIPE = gql`
   query GetRecipe($recipeId: ID!) {
     getRecipe(recipeId: $recipeId) {
       id
+      title
       content
       updatedAt
     }

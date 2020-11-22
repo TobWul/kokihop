@@ -1,0 +1,14 @@
+.pageEmptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--recipe-page-height);
+}
+
+.text {
+  display: flex;
+  align-items: center;
+  svg {
+    margin: 0 0.5rem;
+  }
+}
