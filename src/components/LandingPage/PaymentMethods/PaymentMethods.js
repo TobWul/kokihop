@@ -12,26 +12,19 @@ const Radio = ({ selected, onClick }) => (
   />
 );
 
-const PaymentMethods = () => {
-  const [selectedPaymentMethods, setSelectedPaymentMethod] = useState(0);
+const PaymentMethods = ({ paymentMethod, setPaymentMethod }) => {
   return (
     <div className={styles.container}>
-      <div
-        className={styles.paymentItem}
-        onClick={() => setSelectedPaymentMethod(0)}
-      >
-        <Radio selected={selectedPaymentMethods === 0} />
+      <div className={styles.paymentItem} onClick={() => setPaymentMethod(0)}>
+        <Radio selected={paymentMethod === 0} />
         <div>
           <Subtitle2>Kort</Subtitle2>
           <Body2>Betal med kort</Body2>
         </div>
         <img src={cardLogos} alt="Visa + Mastercard" />
       </div>
-      <div
-        className={styles.paymentItem}
-        onClick={() => setSelectedPaymentMethod(1)}
-      >
-        <Radio selected={selectedPaymentMethods === 1} />
+      <div className={styles.paymentItem} onClick={() => setPaymentMethod(1)}>
+        <Radio selected={paymentMethod === 1} />
         <div>
           <Subtitle2>Vipps</Subtitle2>
           <Body2>Betal fra mobil</Body2>

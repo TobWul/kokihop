@@ -1,3 +1,5 @@
+@import "../../../styles/sass-variables";
+
 .settingsMenuWrapper {
   position: fixed;
   top: 48px * 2;
@@ -7,6 +9,11 @@
   transition: transform 200ms ease-in-out;
   z-index: 10;
   pointer-events: none;
+
+  @media screen and (max-width: $mobile-bp) {
+    top: 8rem;
+    right: 1.5rem;
+  }
 
   > div:not(:last-child) {
     z-index: 1;

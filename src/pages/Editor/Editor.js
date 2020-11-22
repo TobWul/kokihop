@@ -63,7 +63,7 @@ const Editor = () => {
     history.push(`/bok/${bookId}`);
   };
 
-  const [save] = useMutation(SAVE, {
+  const [save, { loading: saveLoading }] = useMutation(SAVE, {
     update() {
       refetch().then(() => {
         navigate();
@@ -74,7 +74,7 @@ const Editor = () => {
     },
     variables: { title, content: value, bookId, categoryId },
   });
-  const [update] = useMutation(UPDATE, {
+  const [update, { loading: updateLoading }] = useMutation(UPDATE, {
     update() {
       navigate();
     },
@@ -102,11 +102,14 @@ const Editor = () => {
       <div className={styles.toolbar}>
         <Toolbar />
         <div>
-          <Button onClick={submit}>Lagre</Button>
+          <Button loading={saveLoading || updateLoading} onClick={submit}>
+            Lagre
+          </Button>
         </div>
       </div>
       <div className={styles.editor}>
         <input
+          className={styles.titleField}
           type="text"
           name="title"
           placeholder="Tittel..."
@@ -117,7 +120,7 @@ const Editor = () => {
           theme="snow"
           value={loading && recipeId ? "Loading..." : value}
           onChange={setValue}
-          placeholder="• Ingredienser..."
+          placeholder="Skriv inn oppskriften her..."
           modules={{ toolbar: "#toolbar" }}
         />
       </div>

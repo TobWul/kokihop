@@ -1,3 +1,5 @@
+@import "../../../styles/sass-variables";
+
 .button {
   background-color: var(--secondary-800);
   color: var(--primary-100);
@@ -6,11 +8,24 @@
   padding: 0.7rem 1rem;
   font-size: 0.875rem;
   text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  span.isLoading {
+    visibility: hidden;
+  }
 
   &.secondary {
     color: var(--secondary-800);
     background: var(--primary-100);
     border: 1.5px solid var(--secondary-800);
+  }
+
+  &:disabled {
+    background-color: var(--secondary-400);
+    color: var(--secondary-100);
+    cursor: not-allowed;
   }
 
   &.round {
@@ -32,11 +47,21 @@
     }
 
     &.bottom {
-      bottom: 4rem;
+      bottom: 5rem;
     }
 
     &.right {
       right: 3rem;
+    }
+
+    @media screen and (max-width: $mobile-bp) {
+      &.top {
+        top: 5rem;
+      }
+
+      &.right {
+        right: 1.5rem;
+      }
     }
 
     // &.left {

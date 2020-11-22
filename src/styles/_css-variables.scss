@@ -24,6 +24,9 @@
   --max-page-width: 1100px;
   --recipe-category-width: 80px;
   --recipe-page-width: calc(100vw - 80px);
+  @media screen and (max-width: 760px) {
+    --recipe-page-width: 100vw;
+  }
 
   --depth-1: 0px 0.181152px 0.317016px rgba(22, 33, 53, 0.0243888),
     0px 0.500862px 0.876509px rgba(22, 33, 53, 0.035),

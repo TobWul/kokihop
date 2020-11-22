@@ -9,6 +9,7 @@ import Icon from "../../../components/DS/Icon/Icon";
 import Input from "../../../components/DS/Input/Input";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import CategoryCard from "../../../components/Webapp/CategoryCard/CategoryCard";
+import AddCategory from "../../../components/Webapp/AddCategory/AddCategory";
 
 const BookIndex = () => {
   const { book, setCurrentPage, bookId, refetch } = useContext(RecipeContext);
@@ -51,16 +52,6 @@ const BookIndex = () => {
     }
   );
 
-  const [addNewCategory] = useMutation(ADD_NEW_CATEGORY, {
-    update() {
-      refetch();
-    },
-    onError(err) {
-      console.error(err);
-    },
-    variables: { name: newCategoryName, bookId },
-  });
-
   const [updateCategory] = useMutation(UPDATE_CATEGORY, {
     update() {
       refetch();
@@ -69,11 +60,6 @@ const BookIndex = () => {
       console.error(err);
     },
   });
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    addNewCategory();
-  };
 
   const changeOrder = (reorderedRecipes, categoryId) => {
     updateCategory({
@@ -108,28 +94,10 @@ const BookIndex = () => {
             />
           ))}
       </div>
-      <form onSubmit={onSubmit}>
-        <button type="submit">
-          <Icon icon="addCircle" />
-          Legg til ny kategori
-        </button>
-        <Input
-          value={newCategoryName}
-          onChange={(e) => setNewCategoryName(e.target.value)}
-        />
-      </form>
+      <AddCategory />
     </div>
   );
 };
-
-const ADD_NEW_CATEGORY = gql`
-  mutation AddNewCategory($name: String!, $bookId: ID!) {
-    addCategory(name: $name, bookId: $bookId) {
-      name
-      recipes
-    }
-  }
-`;
 
 const UPDATE_CATEGORY = gql`
   mutation UpdateCategory(

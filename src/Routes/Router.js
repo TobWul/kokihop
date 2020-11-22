@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 import RecipeBook from "../pages/Book/RecipeBook/RecipeBook";
 import IndexPage from "../pages/IndexPage/IndexPage";
-import LoginPage from "../pages/LoginPage";
+import LoginPage from "../pages/LoginPage/LoginPage";
 import RegisterPage from "../pages/RegisterPage/RegisterPage";
 import PrivateRoute from "./PrivateRoute";
 import Editor from "../pages/Editor/Editor";

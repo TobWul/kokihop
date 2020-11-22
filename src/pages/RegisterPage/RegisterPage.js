@@ -16,14 +16,12 @@ import {
 import PaymentMethods from "../../components/LandingPage/PaymentMethods/PaymentMethods";
 import styles from "./RegisterPage.module.scss";
 import DummyBook from "../../components/LandingPage/DummyBook/DummyBook";
-import { usePlausible } from "../../hooks/usePlausible";
 import { failSafeGraphQlError } from "../../lib/helpers";
 
 const RegisterPage = () => {
   const history = useHistory();
   const location = useLocation();
   const { login, user } = useContext(AuthContext);
-  const plausible = usePlausible();
   const {
     userInput,
     errors,
@@ -40,18 +38,19 @@ const RegisterPage = () => {
     paymentMethod: 0,
   });
 
-  const [createNewUser] = useMutation(CREATE_USER, {
+  const [
+    createNewUser,
+    { loading: createUserLoading, error: createUserError },
+  ] = useMutation(CREATE_USER, {
     update(_, { data: { register: userData } }) {
       console.log("Updated createNewUser");
-      console.log(userData);
-      logToAnalytics();
       login(userData);
       history.push(ROUTES.FAKE_DOOR, { bookId: userData.bookId });
     },
     onError(err) {
       setErrors(failSafeGraphQlError(err));
     },
-    variables: userInput,
+    variables: { ...userInput, paymentMethod },
   });
   const [createNewBook] = useMutation(CREATE_NEW_BOOK, {
     update(
@@ -70,10 +69,6 @@ const RegisterPage = () => {
     },
     variables: { name: userInput.bookName },
   });
-
-  function logToAnalytics() {
-    plausible(paymentMethod === 0 ? "signup-card" : "signup-vipps");
-  }
 
   function registerCallback() {
     if (userInput.bookName.trim() === "") {
@@ -134,11 +129,16 @@ const RegisterPage = () => {
               </>
             )}
             <Body1>Velg betalingsmåte</Body1>
-            <PaymentMethods setPaymentMethod={setPaymentMethod} />
+            <PaymentMethods
+              paymentMethod={paymentMethod}
+              setPaymentMethod={setPaymentMethod}
+            />
             <br />
             <Subtitle1>kr 49</Subtitle1>
             <br />
-            <Button type="submit">Gå til betaling</Button>
+            <Button loading={createUserLoading} type="submit">
+              Gå til betaling
+            </Button>
           </form>
         </div>
         <DummyBook bookName={userInput.bookName} />
@@ -153,6 +153,7 @@ const CREATE_USER = gql`
     $email: String!
     $password: String!
     $bookName: String!
+    $paymentMethod: Int!
   ) {
     register(
       registerInput: {
@@ -160,6 +161,7 @@ const CREATE_USER = gql`
         email: $email
         password: $password
         bookName: $bookName
+        paymentMethod: $paymentMethod
       }
     ) {
       id

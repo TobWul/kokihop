@@ -4,15 +4,29 @@ import styles from "./Button.module.scss";
 import Icon from "../Icon/Icon";
 import { Link } from "react-router-dom";
 import { cn } from "../../../lib/helpers";
+import Spinner from "../Spinner/Spinner";
 
-const Button = ({ onClick, href, to, children, icon, secondary, type }) => {
+const Button = ({
+  onClick,
+  href,
+  to,
+  children,
+  icon,
+  secondary,
+  type,
+  loading,
+  disabled,
+}) => {
   if (!children) return null;
   const buttonClassName = cn(styles.button, secondary && styles.secondary);
 
   const ButtonContent = () => (
     <>
-      {icon && <Icon icon={icon} />}
-      {children}
+      <span className={loading ? styles.isLoading : ""}>
+        {icon && <Icon icon={icon} />}
+        {children}
+      </span>
+      {loading && <Spinner />}
     </>
   );
 
@@ -24,7 +38,12 @@ const Button = ({ onClick, href, to, children, icon, secondary, type }) => {
     );
   } else if (onClick || type === "submit") {
     return (
-      <button onClick={onClick} className={buttonClassName} type={type}>
+      <button
+        onClick={onClick}
+        className={buttonClassName}
+        type={type}
+        disabled={disabled}
+      >
         <ButtonContent />
       </button>
     );

@@ -1,20 +1,19 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import Button from "../components/DS/Button/Button";
-import Input from "../components/DS/Input/Input";
-import { Heading1 } from "../components/DS/Typography/Typography";
-import Layout from "../components/LandingPage/Layout/Layout";
-import { AuthContext } from "../context/authContext";
-import useAuthForm from "../hooks/useAuthForm";
-import { usePlausible } from "../hooks/usePlausible";
-import { ROUTES } from "../Routes/Router";
+import Button from "../../components/DS/Button/Button";
+import Input from "../../components/DS/Input/Input";
+import { Heading1 } from "../../components/DS/Typography/Typography";
+import Layout from "../../components/LandingPage/Layout/Layout";
+import { AuthContext } from "../../context/authContext";
+import useAuthForm from "../../hooks/useAuthForm";
+import { ROUTES } from "../../Routes/Router";
+import styles from "./LoginPage.module.scss";
 
 const LoginPage = (props) => {
   const location = useLocation();
   const history = useHistory();
   const context = useContext(AuthContext);
-  const plausible = usePlausible();
 
   useEffect(() => {
     context.user !== null && history.push(ROUTES.HOME);
@@ -28,26 +27,28 @@ const LoginPage = (props) => {
     }
   );
 
-  const [loginUser] = useMutation(LOGIN, {
-    update(_, { data: { login: userData } }) {
-      context.login(userData);
-      history.push(location.state.from ? location.state.from : ROUTES.HOME);
-    },
-    onError(err) {
-      err.graphQLErrors[0] &&
-        setErrors(err.graphQLErrors[0].extensions.exception.errors);
-    },
-    variables: userInput,
-  });
+  const [loginUser, { loading: loginLoading, error: loginError }] = useMutation(
+    LOGIN,
+    {
+      update(_, { data: { login: userData } }) {
+        context.login(userData);
+        history.push(location.state.from ? location.state.from : ROUTES.HOME);
+      },
+      onError(err) {
+        err.graphQLErrors[0] &&
+          setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      },
+      variables: userInput,
+    }
+  );
 
   function loginCallback() {
     loginUser();
-    plausible("Login");
   }
 
   return (
     <Layout>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className={styles.loginWrapper}>
         <Heading1>Logg inn</Heading1>
         <Input
           name="email"
@@ -64,10 +65,10 @@ const LoginPage = (props) => {
           type="password"
           onChange={onChange}
         />
-        <Button type="submit">Logg inn</Button>
+        <Button loading={loginLoading} type="submit">
+          Logg inn
+        </Button>
       </form>
-
-      <Button onClick={context.logout}>Logg ut</Button>
     </Layout>
   );
 };
