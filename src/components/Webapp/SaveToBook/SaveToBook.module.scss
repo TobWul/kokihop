@@ -1,0 +1,18 @@
+.wrapper {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-100);
+  padding: 1rem 1rem 1rem 2rem;
+  border-radius: var(--main-border-radius);
+  box-shadow: var(--depth-2);
+  max-width: 550px;
+  width: 90%;
+  button {
+    margin-left: 1rem;
+  }
+}

@@ -7,8 +7,7 @@ import PageEmptyState from "../PageEmptyState/PageEmptyState";
 import SettingsMenu from "../SettingsMenu/SettingsMenu";
 import { RecipeContext } from "../../../context/recipeContext";
 import { gql, useQuery } from "@apollo/client";
-import styles from "./RecipePage.module.scss";
-import { Heading1 } from "../../../components/DS/Typography/Typography";
+import RecipeContent from "../../../components/Webapp/RecipeContent/RecipeContent";
 
 const VirtualizeSwipeableViews = bindKeyboard(virtualize(SwipeableViews));
 
@@ -40,12 +39,7 @@ const Pages = () => {
 
   const slideRenderer = (params) => {
     const { index, key } = params;
-    return (
-      <div className={styles.recipeWrapper} key={key}>
-        <Heading1>{recipe && recipe.title}</Heading1>
-        {recipe && <div dangerouslySetInnerHTML={{ __html: recipe.content }} />}
-      </div>
-    );
+    return <RecipeContent key={key} />;
   };
 
   const nextPage = () =>

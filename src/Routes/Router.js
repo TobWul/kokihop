@@ -10,6 +10,7 @@ import Editor from "../pages/Editor/Editor";
 import Library from "../pages/Library/Library";
 import { Helmet } from "react-helmet";
 import Completed from "../pages/RegisterPage/Completed";
+import PublicRecipe from "../pages/PublicRecipe/PublicRecipe";
 
 export const ROUTES = {
   HOME: "/",
@@ -64,7 +65,9 @@ const Router = () => {
         <PrivateRoute path={ROUTES.LIBRARY} allowedCondition={user}>
           <Library />
         </PrivateRoute>
-        <Route path={ROUTES.PUBLIC_RECIPE}>{"<LinkedRecipePage />"}</Route>
+        <Route path={ROUTES.PUBLIC_RECIPE}>
+          <PublicRecipe />
+        </Route>
         <Route>{"404"}</Route>
       </Switch>
     </BrowserRouter>
