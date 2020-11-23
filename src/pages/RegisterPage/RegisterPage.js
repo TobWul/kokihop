@@ -83,11 +83,6 @@ const RegisterPage = () => {
       <div className={styles.container}>
         <div className={styles.inputFields}>
           <Heading1>{user ? `Hei igjen!` : "Ny bruker"}</Heading1>
-          <Body1>
-            {user
-              ? "Trenger du påfyll til biblioteket?"
-              : "Begynn med én bok, når den er skrevet ut, kan du kjøpe flere bøker å legge i samlingen din."}
-          </Body1>
           <br />
           <form onSubmit={onSubmit}>
             <Input

@@ -1,4 +1,4 @@
 .pageWrapper {
-  padding: var(--nav-height) var(--page-horizontal-padding) var(--footer-height);
+  padding: var(--nav-height) 0 0;
   min-height: calc(100vh - var(--footer-height) - var(--nav-height));
 }
