@@ -39,7 +39,7 @@ const Pages = () => {
 
   const slideRenderer = (params) => {
     const { index, key } = params;
-    return <RecipeContent key={key} />;
+    return <RecipeContent recipe={recipe} key={key} />;
   };
 
   const nextPage = () =>
