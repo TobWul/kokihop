@@ -21,11 +21,16 @@ const IndexPage = () => {
     <Layout>
       <div className={styles.header}>
         <div>
-          <Heading1>Kokihop</Heading1>
+          <Heading1>
+            Samle alle favorittene på
+            <br /> ett sted
+          </Heading1>
           <Body1>
-            An online personal recipe book based on the magazine cutout book my
-            mom and grandmothers had throughout my childhood.
+            Få slutt på endeløs leting etter oppskrifter bakerst i skuffen.
+            Lagre alt fra bestemors kjøttkaker til matbloggerens ceviche i din
+            personlige kokebok.
           </Body1>
+          <br />
           <img src={landingPageIllustration} alt="Kokihop illustrasjon" />
           <form onSubmit={toRegisterPage}>
             <Input

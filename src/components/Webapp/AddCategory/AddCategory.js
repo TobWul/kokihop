@@ -16,6 +16,7 @@ const AddCategory = ({}) => {
     update() {
       refetch();
       setModalOpen(false);
+      setNewCategoryName("");
     },
     onError(err) {
       console.error(err);
