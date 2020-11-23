@@ -20,7 +20,7 @@ const Nav = () => {
         )}
         <li>
           {!user ? (
-            <Link to={ROUTES.LOGIN}>Logg inn</Link>
+            <Button to={ROUTES.LOGIN}>Logg inn</Button>
           ) : (
             <Button onClick={logout}>Logg ut</Button>
           )}
