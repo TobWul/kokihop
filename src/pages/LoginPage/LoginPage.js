@@ -65,6 +65,7 @@ const LoginPage = (props) => {
           type="password"
           onChange={onChange}
         />
+        {errors.general && <p>{errors.general}</p>}
         <Button loading={loginLoading} type="submit">
           Logg inn
         </Button>
