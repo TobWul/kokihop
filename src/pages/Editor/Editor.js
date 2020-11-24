@@ -6,8 +6,10 @@ import "react-quill/dist/quill.snow.css";
 import Button from "../../components/DS/Button/Button";
 import Icon from "../../components/DS/Icon/Icon";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { RecipeContext } from "../../context/recipeContext";
+import { AuthContext } from "../../context/authContext";
+import { addEndingS } from "../../lib/helpers";
 
 const Toolbar = () => (
   <div id="toolbar">
@@ -45,10 +47,25 @@ const Editor = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const history = useHistory();
+  const { state } = useLocation();
   const { recipeId } = useParams();
-  const { bookId, categoryId, refetch } = useContext(RecipeContext);
+  let {
+    book,
+    bookId,
+    categoryId,
+    refetch,
+    setCategoryId,
+    setBookId,
+  } = useContext(RecipeContext);
+  const { user } = useContext(AuthContext);
+  const { userId } = state;
 
-  if (!recipeId && !categoryId) history.goBack();
+  if (!bookId) {
+    setBookId(state.bookId);
+    setCategoryId(state.categoryId);
+  }
+
+  const isOthersRecipe = userId !== user.id;
 
   const { error, loading } = useQuery(GET_RECIPE, {
     variables: { recipeId: recipeId },
@@ -58,6 +75,14 @@ const Editor = () => {
     },
     onError: (err) => console.log(err),
     skip: !recipeId,
+  });
+
+  useQuery(GET_USERNAME, {
+    variables: { userId },
+    onCompleted: (data) =>
+      data &&
+      setTitle(addEndingS(data.getUsername.split(" ")[0]) + " " + title),
+    skip: !title,
   });
 
   const navigate = () => {
@@ -93,7 +118,7 @@ const Editor = () => {
 
   const submit = () => {
     console.log("Saving...");
-    if (recipeId) update();
+    if (recipeId && !isOthersRecipe) update();
     else if (categoryId) save();
     else console.error("Missing Recipe ID or Category ID");
   };
@@ -141,6 +166,12 @@ const GET_RECIPE = gql`
       content
       updatedAt
     }
+  }
+`;
+
+const GET_USERNAME = gql`
+  query GetUsername($userId: ID!) {
+    getUsername(userId: $userId)
   }
 `;
 

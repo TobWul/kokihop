@@ -15,4 +15,9 @@
   button {
     margin-left: 1rem;
   }
+  > div > div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
 }

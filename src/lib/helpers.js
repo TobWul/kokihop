@@ -50,3 +50,7 @@ export const failSafeGraphQlError = (err) =>
   err.graphQLErrors[0].extensions &&
   err.graphQLErrors[0].extensions.exception &&
   err.graphQLErrors[0].extensions.exception.errors;
+
+export const addEndingS = (name) => {
+  return name.endsWith("s") ? name + "'" : name + "s";
+};

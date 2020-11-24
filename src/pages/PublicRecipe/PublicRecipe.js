@@ -8,16 +8,22 @@ import styles from "./PublicRecipe.module.scss";
 
 const PublicRecipe = () => {
   let { recipeId } = useParams();
-  console.log(typeof recipeId);
   const { data, loading, error } = useQuery(GET_RECIPE, {
     variables: { recipeId },
     onError: (err) => console.log(error),
   });
+  const { data: bookQuery, loading: bookLoading, error: bookError } = useQuery(
+    GET_BOOKS
+  );
   if (data) {
     return (
       <div className={styles.publicRecipe}>
         <RecipeContent recipe={data.getRecipe} />
-        <SaveToBook />
+        <SaveToBook
+          recipeId={recipeId}
+          userId={data.getRecipe.user}
+          books={bookQuery && bookQuery.getBooks}
+        />
       </div>
     );
   } else if (error) {
@@ -36,6 +42,19 @@ const GET_RECIPE = gql`
       content
       createdAt
       updatedAt
+    }
+  }
+`;
+
+const GET_BOOKS = gql`
+  query {
+    getBooks {
+      id
+      name
+      categories {
+        id
+        name
+      }
     }
   }
 `;

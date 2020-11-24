@@ -1,6 +1,6 @@
 import { gql, useMutation } from "@apollo/client";
 import React, { useContext, useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Button from "../../components/DS/Button/Button";
 import Input from "../../components/DS/Input/Input";
 import { Heading1 } from "../../components/DS/Typography/Typography";
@@ -32,6 +32,8 @@ const LoginPage = (props) => {
     {
       update(_, { data: { login: userData } }) {
         context.login(userData);
+      },
+      onCompleted: () => {
         history.push(location.state.from ? location.state.from : ROUTES.HOME);
       },
       onError(err) {
@@ -70,6 +72,7 @@ const LoginPage = (props) => {
           Logg inn
         </Button>
       </form>
+      <Link to={location.state.from}>From</Link>
     </Layout>
   );
 };
