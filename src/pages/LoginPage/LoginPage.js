@@ -34,7 +34,11 @@ const LoginPage = (props) => {
         context.login(userData);
       },
       onCompleted: () => {
-        history.push(location.state.from ? location.state.from : ROUTES.HOME);
+        history.push(
+          location.state && location.state.from
+            ? location.state.from
+            : ROUTES.HOME
+        );
       },
       onError(err) {
         err.graphQLErrors[0] &&
@@ -72,7 +76,6 @@ const LoginPage = (props) => {
           Logg inn
         </Button>
       </form>
-      <Link to={location.state.from}>From</Link>
     </Layout>
   );
 };
