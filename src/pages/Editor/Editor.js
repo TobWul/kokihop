@@ -65,7 +65,7 @@ const Editor = () => {
     setCategoryId(location.state.categoryId);
   }
 
-  const isOthersRecipe = userId !== user.id;
+  const isOthersRecipe = userId && userId !== user.id;
 
   const { error, loading } = useQuery(GET_RECIPE, {
     variables: { recipeId: recipeId },
