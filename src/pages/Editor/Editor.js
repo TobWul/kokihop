@@ -47,7 +47,7 @@ const Editor = () => {
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const history = useHistory();
-  const { state } = useLocation();
+  const location = useLocation();
   const { recipeId } = useParams();
   let {
     book,
@@ -58,11 +58,11 @@ const Editor = () => {
     setBookId,
   } = useContext(RecipeContext);
   const { user } = useContext(AuthContext);
-  const { userId } = state;
+  const userId = location && location.state && location.state.userId;
 
   if (!bookId) {
-    setBookId(state.bookId);
-    setCategoryId(state.categoryId);
+    setBookId(location.state.bookId);
+    setCategoryId(location.state.categoryId);
   }
 
   const isOthersRecipe = userId !== user.id;
